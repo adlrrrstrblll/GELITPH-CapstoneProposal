@@ -1,0 +1,11 @@
+{
+  "name": "the-balikbayan-project",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A local, multimedia exhibit of Filipino migration and belonging.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node tests/browser.mjs"
+  }
+}
