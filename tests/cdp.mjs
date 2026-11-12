@@ -70,7 +70,7 @@ export async function waitFor(page, expression, timeout = 12000) {
   throw new Error('Condition did not become true: ' + expression);
 }
 export async function createEnvironment() {
-  const candidates = [process.env.CHROME_PATH, 'C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].filter(Boolean);
+  const candidates = [process.env.CHROME_PATH, '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge', '/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser', 'C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].filter(Boolean);
   let executable;
   for (const candidate of candidates) {
     try { await access(candidate); executable = candidate; break; } catch {}

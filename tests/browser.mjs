@@ -62,16 +62,18 @@ try {
   await browser.call('Browser.setDownloadBehavior', { behavior: 'allow', downloadPath: downloads, eventsEnabled: true });
   await page.call('Page.navigate', { url: url + '/#home' });
   await waitFor(page, "document.documentElement.dataset.ready === 'true'");
-  check('Homepage loads and presents three clearly labeled samples', await evaluate('document.querySelectorAll(".selected-story").length === 3 && document.querySelectorAll(".selected-story .sample-badge").length === 3'));
+  check('Homepage presents both perspectives without repeated sample labels', await evaluate('document.querySelectorAll(".selected-story").length === 2 && !document.querySelector(".sample-note")'));
+  await go('#about');
   await click('[data-language="fil"]');
   check('Filipino introduction switches on', await evaluate('!document.querySelector("#intro-fil").hidden && document.querySelector("#intro-en").hidden'));
   await click('[data-language="en"]');
   check('English introduction switches back', await evaluate('!document.querySelector("#intro-en").hidden'));
+  await go('#home');
   await noOverflow('Desktop homepage fits the viewport');
   await screenshot('desktop-home');
   await go('#stories');
-  check('Archive lists six SAMPLE stories', await evaluate('document.querySelectorAll(".archive-row").length === 6 && document.querySelector("#result-count").textContent.includes("6 SAMPLE")'));
-  for (const [theme, count] of [['Leaving', 1], ['Staying', 1], ['Remembering', 2], ['Coming Home', 2]]) {
+  check('Archive lists ten stories without sample counts or badges', await evaluate('document.querySelectorAll(".archive-row").length === 10 && document.querySelector("#stories-view .archive-summary").hidden && !document.querySelector("#story-list .sample-badge")'));
+  for (const [theme, count] of [['Leaving', 2], ['Staying', 2], ['Remembering', 2], ['Coming Home', 2], ['Belonging', 2]]) {
     await click('[data-theme="' + theme + '"]');
     check(theme + ' filter returns its stories', await evaluate('document.querySelectorAll(".archive-row").length') === count);
   }
@@ -84,9 +86,92 @@ try {
   check('Empty search displays an actionable empty state', await evaluate('Boolean(document.querySelector(".empty-state [data-reset-filters]"))'));
   await click('[data-reset-filters]');
   await fill({ 'perspective-filter': 'stayed' });
-  check('Perspective filter finds three family accounts', await evaluate('document.querySelectorAll(".archive-row").length === 3'));
+  check('Perspective filter finds five family accounts', await evaluate('document.querySelectorAll(".archive-row").length === 5'));
   await click('#clear-filters');
   await screenshot('desktop-archive');
+  check('Header uses the project logo and the approved green and white palette', await evaluate('getComputedStyle(document.querySelector(".site-header")).backgroundColor === "rgb(32, 63, 50)" && getComputedStyle(document.querySelector(".site-header")).color === "rgb(252, 250, 245)" && document.querySelector(".brand img").naturalWidth > 0'));
+  await go('#box?object=journey');
+  check('Box deep link selects a journey and opens its matching story', await evaluate('document.getElementById("selected-object-title").textContent === "A journey" && document.getElementById("selected-object-story").hash === "#story/sample-joel"'));
+  await click('[data-object-select="taste"]');
+  check('Choosing an object changes the image, selected state, and story link', await evaluate('document.getElementById("selected-object-image").src.endsWith("adobo.jpg") && document.querySelector("[data-object-select=taste]").getAttribute("aria-pressed") === "true" && document.getElementById("selected-object-story").hash === "#story/sample-ben"'));
+  await screenshot('desktop-box');
+  for(const id of ['ari','nora','camille','elena']) {
+    await go('#story/sample-'+id);
+    check('New '+id+' account opens with its companion', await evaluate('document.querySelectorAll(".paired-stories .story-account").length === 2 && document.querySelector("[data-story-id=sample-'+id+']") !== null'));
+  }
+  await go('#explore');
+  check('Explore and Watch contains six credited source cards', await evaluate('document.querySelectorAll(".resource-card").length === 6 && [...document.querySelectorAll(".resource-card a")].every(a=>a.href.startsWith("https://") && a.rel.includes("noopener"))'));
+  check('YouTube makes no connection before a viewer chooses to play', await evaluate('document.querySelectorAll("iframe").length === 0'));
+  await click('[data-format="read"]');
+  check('Reading filter returns four resources', await evaluate('document.querySelectorAll(".resource-card").length === 4'));
+  await click('[data-format="watch"]');
+  check('Watch filter returns two videos', await evaluate('document.querySelectorAll(".resource-card").length === 2'));
+  await click('#resource-clear');
+  await fill({'resource-country':'South Korea'});
+  check('Country filter finds the South Korea essay', await evaluate('document.querySelectorAll(".resource-card").length === 1 && document.getElementById("resource-grid").textContent.includes("Proud" )'));
+  await click('#resource-clear');
+  await fill({'resource-search':'no-resource-xyz'});
+  await click('#resource-search-form button');
+  check('Resource empty state can reset the collection', await evaluate('Boolean(document.querySelector("[data-resource-reset]"))'));
+  await click('[data-resource-reset]');
+  const video=await evaluate('(() => { document.querySelector("[data-video=paglalayag]").click(); const dialog=document.getElementById("resource-video-dialog"); const frame=document.querySelector("#resource-player iframe"); const result={open:dialog.open,src:frame.src,title:frame.title}; document.getElementById("close-resource-video").click(); result.closed=!dialog.open&&document.querySelectorAll("iframe").length===0;return result;})()');
+  check('Video dialog creates the correct privacy-enhanced player and disposes it on close', video.open && video.closed && video.title==='Paglalayag' && video.src.includes('youtube-nocookie.com/embed/DztANt3UDr8'));
+  await screenshot('desktop-explore');
+  await go('#about');
+  check('About explains storage without academic branding', await evaluate('document.querySelector(".privacy-details").textContent.includes("not sent to a shared public archive") && !/GELITPH|academic|akademikong/i.test(document.body.innerText)'));
+  await screenshot('desktop-about');
+  await go('#stories');
+  const hover=await evaluate('(()=>{const r=document.querySelector(".archive-row").getBoundingClientRect();return{x:r.x+30,y:r.y+30};})()');
+  await page.call('Input.dispatchMouseEvent',{type:'mouseMoved',...hover});
+  await delay(260);
+  check('Story cards have a visible hover shadow', await evaluate('getComputedStyle(document.querySelector(".archive-row")).boxShadow !== "none"'));
+  await page.call('Input.dispatchMouseEvent',{type:'mouseMoved',x:5,y:5});
+  await go('#story/sample-teresa');
+  check('Reading metadata shows a plain author and separate theme tag', await evaluate('document.querySelector("[data-story-id=sample-teresa] .account-author").textContent === "Teresa" && document.querySelector("[data-story-id=sample-teresa] .theme-chip").textContent === "Coming Home" && !/sample pseudonym|SAMPLE|\\/Coming Home/.test(document.querySelector("[data-story-id=sample-teresa] .account-meta").textContent)'));
+  check('The repeated fictional-story notice is removed from reading pages', await evaluate('!document.querySelector(".sample-disclosure") && !document.getElementById("story-detail").textContent.includes("Fictional sample accounts. Photographs are illustrative")'));
+  await screenshot('desktop-clean-metadata');
+  for(const view of ['home','box','stories','explore','about','submit']) {
+    await click('.main-nav [data-nav="'+view+'"]');
+    await waitFor(page,'!document.querySelector("[data-view='+view+']").hidden');
+    await delay(250);
+    check('Header '+view+' opens its own page with active navigation and heading focus',await evaluate('document.querySelector(".main-nav [data-nav='+view+']").getAttribute("aria-current") === "page" && document.activeElement === document.querySelector("[data-view='+view+'] h1")'));
+  }
+  await page.call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+  await click('.main-nav [data-nav="about"]');
+  await waitFor(page,'!document.getElementById("about-view").hidden');
+  check('Reduced-motion navigation changes pages without animating them',await evaluate('document.getElementById("about-view").getAnimations().length===0'));
+  await page.call('Emulation.setEmulatedMedia',{features:[]});
+  await evaluate('location.hash="#home";location.hash="#box";location.hash="#stories";location.hash="#about";');
+  await delay(300);
+  check('Rapid navigation leaves only the latest page visible',await evaluate('document.querySelectorAll("[data-view]:not([hidden])").length===1 && !document.getElementById("about-view").hidden && document.querySelector(".main-nav [data-nav=about]").getAttribute("aria-current")==="page"'));
+  await go('#home');
+  await evaluate('window.scrollTo({top:900,behavior:"instant"})');
+  await click('.main-nav [data-nav="home"]');
+  await waitFor(page,'scrollY===0');
+  check('Clicking the current Home item returns to the page entrance',await evaluate('document.activeElement===document.querySelector("#home-view h1")'));
+  await click('.main-nav [data-nav="about"]');await delay(260);
+  await click('.main-nav [data-nav="home"]');await delay(260);
+  await evaluate('history.back()');
+  await waitFor(page,'!document.getElementById("about-view").hidden');
+  check('Browser Back restores the correct page and active header item',await evaluate('document.querySelector(".main-nav [data-nav=about]").getAttribute("aria-current")==="page"'));
+  for(const id of ['lina','ben','teresa','ari','camille']) {
+    await go('#story/sample-'+id+'?lang=fil');
+    check('Filipino '+id+' pair has translated titles and complete narrative paragraphs',await evaluate('(async()=>{const {SAMPLE_STORIES}=await import("./js/samples.js");return [...document.querySelectorAll(".story-account")].every(article=>article.lang==="fil" && article.querySelectorAll(".story-narrative p").length>=4 && article.querySelector("h2").textContent!==SAMPLE_STORIES.find(s=>s.id===article.dataset.storyId).title);})()'));
+  }
+  await screenshot('desktop-filipino-reading');
+  await reload();
+  check('Filipino reading choice survives reloading a direct story link',await evaluate('document.querySelector("[data-reading-language=fil]").getAttribute("aria-pressed")==="true" && document.querySelectorAll(".story-account[lang=fil]").length===2'));
+  await click('.main-nav [data-nav="stories"]');await delay(260);
+  check('The story collection keeps the Filipino reading choice',await evaluate('document.getElementById("story-list").textContent.includes("Puwesto mo pa rin sa hapag") && !document.getElementById("story-list").textContent.includes("sample pseudonym")'));
+  await reload();
+  check('The language preference persists even without a language URL parameter',await evaluate('!location.hash.includes("lang=") && document.getElementById("story-list").textContent.includes("Mainit pa rin dito")'));
+  await click('#stories-view [data-reading-language="en"]');
+  await fill({search:'kurtina'});await click('#archive-search button');
+  check('Search finds Filipino narrative words while displaying English titles',await evaluate('document.querySelectorAll(".archive-row").length===1 && document.querySelector(".archive-row").hash.includes("sample-teresa") && document.querySelector(".archive-row h2").textContent==="We kept your place at the table"'));
+  await click('#clear-filters');
+  await go('#story/sample-teresa?lang=fil');
+  await click('#story-view [data-reading-language="en"]');
+  check('Switching back to English restores both accounts without changing their IDs',await evaluate('document.querySelectorAll(".story-account[lang=en]").length===2 && document.querySelector("[data-story-id=sample-teresa] .story-narrative").textContent.includes("Three days before my brother came home")'));
   await go('#story/sample-lina');
   check('Paired sample presents both accounts beside each other', await evaluate('document.querySelectorAll(".paired-stories .story-account").length === 2 && getComputedStyle(document.querySelector(".paired-stories")).gridTemplateColumns.split(" ").length === 2'));
   await waitFor(page, 'document.querySelector("audio").readyState >= 1');
@@ -99,14 +184,21 @@ try {
   await screenshot('desktop-paired-story');
   await go('#story/sample-ben');
   await waitFor(page, 'document.querySelector("video").readyState >= 1');
-  await evaluate('document.querySelector("video").play()');
+  await evaluate('document.querySelector("video").scrollIntoView({block:"center"}); void document.querySelector("video").play()');
   await waitFor(page, 'document.querySelector("video").currentTime > .1');
   check('Sample silent film actually plays', true);
   await evaluate('document.querySelector("video").pause()');
   await go('#submit');
+  await fill({title:'An unsaved memory',narrative:'A draft that should stay here when the active navigation item is clicked.'});
+  await click('.main-nav [data-nav="submit"]');
+  await delay(250);
+  check('Clicking the active Share page preserves unsaved form text',await evaluate('document.getElementById("title").value === "An unsaved memory" && document.getElementById("narrative").value.startsWith("A draft that should stay here")'));
+  await go('#home');
+  await go('#submit');
+  check('Form uses plain section headings without counters or storage filler', await evaluate('!document.getElementById("character-count") && [...document.querySelectorAll(".form-section h2,.form-section legend")].every(h=>!/^0[0-9]/.test(h.textContent)) && !document.getElementById("submit-view").innerText.includes("saved in this browser")'));
   await click('#save-story');
   check('Required fields and consent prevent an empty submission', await evaluate('!document.querySelector("#form-errors").hidden && document.querySelectorAll("[aria-invalid=true]").length >= 6 && document.activeElement.id === "form-errors"'));
-  await fill({ title: 'QA: the first letter', author: 'QA <writer>', perspective: 'left', theme: 'Leaving', narrative: 'A test memory about keeping in touch with home.\n\n<script>window.unsafeStory=true</script> The ordinary moments matter.', transcript: '' });
+  await fill({ title: 'QA: the first letter', author: 'QA <writer>', perspective: 'left', theme: 'Belonging', narrative: 'A test memory about keeping in touch with home.\n\n<script>window.unsafeStory=true</script> The ordinary moments matter.', transcript: '' });
   await evaluate('document.getElementById("consent").checked=true');
   const invalidFile = path.join(output, 'unsupported.txt');
   await writeFile(invalidFile, 'A file that is not an image.');
@@ -133,7 +225,7 @@ try {
   await waitFor(page, 'document.querySelector(".story-media img").naturalWidth > 0 && document.querySelector("audio").readyState >= 1 && document.querySelector("video").readyState >= 1');
   await evaluate('document.querySelector("audio").play()');
   await waitFor(page, 'document.querySelector("audio").currentTime > .1');
-  await evaluate('document.querySelector("audio").pause();document.querySelector("video").play()');
+  await evaluate('document.querySelector("audio").pause();document.querySelector("video").scrollIntoView({block:"center"});void document.querySelector("video").play()');
   await waitFor(page, 'document.querySelector("video").currentTime > .1');
   await evaluate('document.querySelector("video").pause()');
   check('Uploaded image renders and both stored recordings play', true);
@@ -186,7 +278,7 @@ try {
   await click('[data-delete]');
   await click('#confirm-delete');
   await waitFor(page, 'location.hash === "#stories"');
-  check('Removing local contributions leaves all built-in samples intact', (await records()).length === 0 && await evaluate('document.querySelectorAll(".archive-row").length === 6'));
+  check('Removing local contributions leaves all built-in samples intact', (await records()).length === 0 && await evaluate('document.querySelectorAll(".archive-row").length === 10'));
   await click('[data-open-backup]');
   await attach('#import-file', backupPath);
   await click('#import-button');
@@ -222,7 +314,7 @@ try {
   await go('#unknown-page');
   check('Unknown routes recover to the homepage', await evaluate('location.hash === "#home" && !document.getElementById("home-view").hidden'));
 
-  for (const width of [768, 390, 320]) {
+  for (const width of [1024, 768, 390, 320]) {
     await page.call('Emulation.setDeviceMetricsOverride', { width, height: width === 768 ? 1024 : 844, deviceScaleFactor: 1, mobile: width < 600 });
     await go('#home');
     await noOverflow(width + 'px homepage fits the viewport');
@@ -242,6 +334,15 @@ try {
       check('Paired accounts stack vertically on phones', await evaluate('getComputedStyle(document.querySelector(".paired-stories")).gridTemplateColumns.split(" ").length === 1 && document.querySelectorAll(".story-account")[1].getBoundingClientRect().top > document.querySelectorAll(".story-account")[0].getBoundingClientRect().bottom'));
       await screenshot('mobile-paired-story');
     }
+    for(const route of ['box','explore','about']) {
+      await go('#'+route);
+      await noOverflow(width+'px '+route+' page fits the viewport');
+      if(width===390)await screenshot('mobile-'+route);
+    }
+    await go('#story/sample-teresa?lang=fil');
+    await noOverflow(width + 'px Filipino reading fits the viewport');
+    if(width===390)await screenshot('mobile-filipino-reading');
+    await click('#story-view [data-reading-language="en"]');
     await go('#submit');
     await noOverflow(width + 'px submission form fits the viewport');
     if (width === 390) {
@@ -258,7 +359,7 @@ try {
   await waitFor(page, "document.documentElement.dataset.ready === 'true'");
   check('Unavailable browser storage shows a clear notice', await evaluate('!document.getElementById("storage-notice").hidden'));
   await go('#stories');
-  check('Sample archive remains usable when storage is blocked', await evaluate('document.querySelectorAll(".archive-row").length === 6'));
+  check('Sample archive remains usable when storage is blocked', await evaluate('document.querySelectorAll(".archive-row").length === 10'));
   await go('#submit');
   await click('#save-story');
   check('A blocked-storage submission never reports success', await evaluate('!document.getElementById("form-errors").hidden && document.getElementById("submission-success").hidden'));

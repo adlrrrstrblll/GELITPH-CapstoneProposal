@@ -1,102 +1,92 @@
 # The Balikbayan Project
 
-**Balikbayan Box** is a local, multimedia exhibit of Filipino migration, memory, family, and belonging. Its central feature connects an account from **The Person Who Left** to an account from **The Family Who Stayed**.
+An interactive literary website about Filipino migration, memory, family, and belonging. Visitors explore a balikbayan box, read paired accounts from someone who left and someone who stayed, and discover related readings and films.
 
-## Run locally
+The implementation follows the approved forest-green, cream, and sage design: a box logo beside the header title, textured Home headline, filled photographic sections, a three-column story collection, and a simple contribution form.
 
-Use Node.js 22 or later. No dependency installation or build step is needed.
+## Run the website
 
-From this repository:
+Use Node.js 22 or later. There are no third-party dependencies to install.
 
-~~~sh
-node server.mjs
-~~~
+```sh
+npm start
+```
 
-Open **http://127.0.0.1:4173** in a browser. Keep the terminal running while using the exhibit; press Ctrl+C to stop it. You can also use `npm start`.
+Open **http://127.0.0.1:4173**. Keep the terminal running; press **Ctrl+C** to stop. `npm run dev` and `node server.mjs` do the same thing. To use another port, run `PORT=4174 npm start` on macOS/Linux.
 
-Use the same address, browser profile, and port for your presentation. `localhost`, `127.0.0.1`, another port, and another browser each have separate browser storage. Opening the HTML directly with `file://` is not supported.
+Use the same address, port, and browser profile to retain access to your saved contributions. `localhost`, `127.0.0.1`, a different port, and the eventual Vercel domain have separate browser storage. Export a backup before moving between them. Open the site through the server rather than double-clicking `index.html`.
 
-The Node server only serves static files. There are no API endpoints, backend database, or server-side submissions. Contributions and uploaded media stay in IndexedDB in the visitor's browser. All images, sample audio, sample video, and fonts are local or system-provided; the exhibit makes no external requests during normal use. Credit links open external websites only when clicked.
+## Pages and interactions
 
-## What is included
+- **Home** — textured split hero, four object links, and a preview of both perspectives.
+- **Inside the Box** (`#box`) — select a letter, photograph, journey, or taste of home; the image, description, and matching story update together. Object selections support direct links, such as `#box?object=journey`.
+- **Our Stories** (`#stories`) — ten original accounts in five pairs, English/Filipino reading editions, bilingual keyword search, perspective/source filters, and five themes: Leaving, Staying, Remembering, Coming Home, and Belonging. Story cards lift and show a shadow on hover or keyboard focus. The default collection omits sample counts and badges; author names and theme tags have separate positions.
+- **Story reading** (`#story/sample-ari`, for example) — paired reading on desktop, stacked accounts on phones, English/Filipino controls, media players, transcripts, and links to more reading. Own contributions can be edited or removed.
+- **Explore & Watch** (`#explore`) — six credited original resources, format/theme/place filters, keyword search, external reading links, and YouTube players opened on demand.
+- **Share Your Story** (`#submit`) — name or pseudonym, title, perspective, theme, narrative, optional image/audio/video, media description, and consent. An unpaired own contribution can be connected to a companion account.
+- **About** (`#about`) — project context, image-led concepts, English/Filipino introduction switching, photography sources, and storage/privacy information. The old `#exhibit` link remains an alias for About.
 
-- Four screens: home/exhibit introduction, searchable story archive, story detail, and submission/edit form.
-- Forest-green and cream editorial design with responsive layouts and English/Filipino introduction switching.
-- Theme filters: Leaving, Staying, Remembering, and Coming Home; perspective and sample/local filters.
-- Connected migrant and family accounts shown side by side on desktop and stacked on phones.
-- Accessible submission form with consent, field validation, file type/size limits, and media descriptions.
-- IndexedDB storage of story records and image, audio, and video Blobs.
-- Editing, replacing/removing attachments, and deleting local contributions.
-- A pairing selector that links to an unpaired account from the other perspective. The shared `pairId` is managed automatically.
-- JSON backups that include uploaded media, with validated, atomic restore and duplicate-ID skipping.
-- Six clearly marked fictional SAMPLE stories in three pairs, including playable sample audio and a silent sample film.
-- Useful empty, missing-story, validation, storage-error, and playback-error states.
+The four additional original fictional accounts are **The first winter coat**, **It is still warm here**, **The words I kept**, and **You can answer in English**. These built-in accounts are original fiction, with the content note kept in About and the credits. They are not interviews or verified testimonies.
 
-There is no authentication. Edit/remove controls manage contributions in the current browser. Samples are read-only source content, are not stored as local contributions, and are not included in exported backups.
+## What hosting does and does not change
 
-## Presentation walkthrough
+The website is static. Contributions and uploaded media are stored as IndexedDB records and binary Blobs in the visitor's browser. They are not sent to a public database, and other visitors cannot see them. Vercel hosts the website files; it does not make browser-local submissions shared.
 
-1. Open the homepage; switch the introduction between English and Filipino.
-2. Choose **Explore the Exhibit**, then try each theme filter.
-3. Open **The space between Sunday calls**. Read the mother's and child's fictional accounts side by side. Play the computer-voiced sample and open its transcript.
-4. Open **A recipe without measurements** to play the silent SAMPLE photographic study.
-5. Choose **Share your story**. Fill in the required fields, optionally attach media, describe the media, and give permission.
-6. Submit, open the new story, and refresh the browser to confirm it remains available.
-7. Choose **Contribute the other perspective** on an unpaired local story. Submit a companion account to see the two stories together.
-8. Edit or remove a local account using its story-page controls.
-9. In the archive, search for the contributor/title, try a theme, and select **Local contributions**.
-10. Choose **Back up & restore**, download the JSON backup, and keep it somewhere safe. Import it in a separate browser profile to restore the local collection and all media.
+A shared public archive would need a backend database, file storage, and appropriate submission/moderation controls. No API keys or environment variables are needed for the current site.
 
-Sample stories and pseudonyms are fictional. They do not count toward the proposal's target of at least 10 genuine personal accounts. The prototype does not verify whether submitted accounts are genuine.
+Explore & Watch is an edited collection of links and summaries in `js/resources.js`, not an automatic web crawler, RSS importer, or live YouTube search. Full articles remain on their original publishers' websites. No YouTube iframe is loaded until a visitor chooses a video. Local assets make the core pages work without remote image/font services; external articles and YouTube playback require internet access.
 
-## Files
+## Build and deploy
+
+```sh
+npm run build
+```
+
+This creates **`dist/`**, containing only `index.html`, CSS, JavaScript, and assets. Tests, documentation, development servers, and browser test data are excluded.
+
+`vercel.json` sets Framework Preset **Other**, Build Command **`npm run build`**, and Output Directory **`dist`**. Follow [the Vercel deployment guide](docs/DEPLOYMENT.md) for import steps, future updates, and the distinction between a hosted website and a shared story archive. The code is not automatically committed, pushed, or published by this update.
+
+Before public publication, review [media credits and permission status](assets/CREDITS.md). Some photographs retained from the approved visual mockup are editorial references rather than openly licensed assets.
+
+## Data and media
+
+- Narrative: 30–30,000 characters. Title: 120 characters. Contributor name: 80 characters.
+- One image (JPEG, PNG, WebP, GIF; up to 10 MB), one audio file (up to 25 MB), and one video (up to 50 MB) per story.
+- Attachments require a transcript or description. Browser support for the actual audio/video codec still matters.
+- Up to 500 own contributions; up to 150 MB per JSON backup/import, subject to browser storage availability.
+- Backups include the submitted text and binary media. Import adds new story IDs and skips existing IDs; it does not overwrite an edited story. Invalid records and conflicting pairings roll back the import.
+- Clearing site data, changing browser/profile, and browser storage eviction can remove the local collection. Use **Back up & restore** in the footer to export it.
+- Built-in samples remain read-only and are excluded from backups.
+
+## Project files
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Shared navigation, four screen containers, form, and dialogs |
-| `css/style.css` | Editorial styling, typography, responsive layouts, reduced-motion rules |
-| `js/app.js` | Hash navigation, views, search/filtering, form, pairing controls, collection actions |
-| `js/db.js` | IndexedDB transactions and atomic pairing/import checks |
-| `js/validation.js` | Shared story, consent, attachment, and pairing validation |
-| `js/backup.js` | Embedded-media JSON export, validation, and restore |
-| `js/samples.js` | Separate, read-only fictional SAMPLE accounts |
-| `assets/` | Local photos, favicon, sample narration/film, and credits |
-| `server.mjs` | Dependency-free static local server with media range requests |
-| `tests/` | Dependency-free Chrome/Edge browser walkthrough and sample-film helper |
-| `TESTING.md` | Verification scope, results, and manual checks |
+| `index.html` | Seven view containers, shared navigation, contribution form, and dialogs |
+| `css/style.css` | Approved visual direction, responsive layouts, hover/focus states, reduced motion |
+| `js/app.js` | Routing, story collection, paired reading, contribution editing, and backup controls |
+| `js/objects.js` | Interactive box objects and their matching stories |
+| `js/resources.js` | Curated external readings/videos and their browsing/player controls |
+| `js/samples.js` | Ten original English accounts and five pair headings |
+| `js/story-translations.js` | Complete Filipino editions, pair introductions, and reading labels |
+| `js/credits.js` | In-site photography and media source links |
+| `js/db.js`, `js/validation.js`, `js/backup.js` | Browser persistence, validation, and atomic backup/restore |
+| `assets/` | Local photographs, original box mark, paper grain, sample audio/video, and credits |
+| `server.mjs` | Local static server, including range requests for media playback |
+| `scripts/build.mjs` | Dependency-free static build into `dist/` |
+| `vercel.json` | Vercel build configuration |
+| `tests/` | Browser walkthrough using a separate, disposable Chromium profile |
 
-The app uses native ES modules. Hash-based routes share one HTML shell; there is no router dependency.
+## Verify
 
-## Backups and limits
+```sh
+npm test
+```
 
-- Image: JPEG, PNG, WebP, or GIF, up to **10 MB**.
-- Audio: MP3, WAV, M4A, OGG, or WebM, up to **25 MB**.
-- Video: MP4, WebM, or OGV, up to **50 MB**.
-- One attachment of each type per story.
-- Narrative: 30–30,000 characters; title: 120; contributor name: 80.
-- At most **500** local stories and **150 MB** per JSON backup/import.
-- Actual storage availability depends on browser/device quotas. A large collection can exceed the single-backup limit; use smaller attachments for this academic prototype.
-- Files must have a supported extension and MIME type. A container's actual codec also needs to be supported by the visitor's browser.
-- Restoring adds new IDs and skips existing IDs. It does not overwrite edited local stories. A pairing conflict or invalid record rejects the import without partial writes.
-- Exported backups include text and binary media as base64. They contain the contributor's submitted content; keep backups with appropriate care.
-- Clearing site data, using another origin/profile, private-browsing cleanup, or browser eviction can remove or hide the local collection. Export a backup before changing browsers or clearing data.
+The test harness detects Chrome/Edge on macOS and Windows and common Chromium paths on Linux. Set `CHROME_PATH` if your browser lives elsewhere. It never uses your ordinary browser profile. Generated screenshots, reports, fixtures, downloads, and temporary browser profiles are ignored by Git. See [TESTING.md](TESTING.md) for verification results and limits.
 
-A real shared public archive, remote submissions, moderation, authentication, and cross-device synchronization would require a future backend. Those are outside this local prototype.
+## Reading and navigation refinements
 
-## Browser verification
+The header includes Home, The Box, Our Stories, Explore & Watch, About, and Share Your Story. Each opens its own view with a brief fade/slide transition, correct active navigation, and heading focus. Reduced-motion preferences skip the animation. Clicking the active page returns to its entrance without resetting form input.
 
-~~~sh
-node tests/browser.mjs
-~~~
-
-The tests use an isolated Chromium profile and a temporary local server. On Windows they discover Chrome or Edge automatically. Elsewhere, set `CHROME_PATH` to a Chromium executable. No browser-testing dependency is installed.
-
-Screenshots, a machine-readable report, downloads, and fixtures go to ignored `test-results/`; browser profiles go to ignored `.tmp/`. The tests never use your normal browser's data.
-
-To regenerate the silent sample film from the credited local jeepney photograph:
-
-~~~sh
-node tests/create-media.mjs
-~~~
-
-The audio and video are already included; regeneration is not required to run the exhibit. See `assets/CREDITS.md` for media sources and labels.
+Choose **English** or **Filipino** in Our Stories or on a reading page. All ten built-in titles and narratives, along with the five pair introductions, have complete Filipino editions. The choice is remembered when browser preference storage is available. Links with `?lang=fil` open the Filipino edition directly. Search matches both languages. Submitted contributions remain in their original language; the website does not automatically translate user writing. The included narration remains in English and is labeled accordingly.

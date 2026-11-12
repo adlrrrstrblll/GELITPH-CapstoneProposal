@@ -1,5 +1,5 @@
 // Shared rules for the form and restored backups.
-export const THEMES = ['Leaving', 'Staying', 'Remembering', 'Coming Home'];
+export const THEMES = ['Leaving', 'Staying', 'Remembering', 'Coming Home', 'Belonging'];
 export const PERSPECTIVES = { left: 'The Person Who Left', stayed: 'The Family Who Stayed' };
 export const MEDIA_RULES = {
   image: { max: 10 * 1024 * 1024, types: { jpg: ['image/jpeg'], jpeg: ['image/jpeg'], png: ['image/png'], webp: ['image/webp'], gif: ['image/gif'] } },
@@ -16,7 +16,7 @@ export function fileError(file, kind) {
   const extension = name.split('.').pop().toLowerCase();
   const acceptedTypes = rule.types[extension];
   const type = file.type.split(';')[0].toLowerCase();
-  if (!acceptedTypes || !acceptedTypes.includes(type)) return 'This file type is not supported. Use one of the formats listed above.';
+  if (!acceptedTypes || !acceptedTypes.includes(type)) return 'This file type is not supported. Choose ' + Object.keys(rule.types).map(type => type.toUpperCase()).join(', ') + '.';
   if (name.length > 200) return 'Please shorten the filename to 200 characters or fewer.';
   if (!file.size) return 'This file is empty. Please choose another.';
   if (file.size > rule.max) return 'This file exceeds the ' + rule.max / 1024 / 1024 + ' MB limit.';
@@ -28,7 +28,7 @@ export function validateDraft(story) {
   if (!story.title?.trim() || story.title.trim().length > 120) errors.title = 'Enter a story title of 1–120 characters.';
   if (!story.author?.trim() || story.author.trim().length > 80) errors.author = 'Enter a name or pseudonym of 1–80 characters.';
   if (!Object.hasOwn(PERSPECTIVES, story.perspective)) errors.perspective = 'Choose your perspective.';
-  if (!THEMES.includes(story.theme)) errors.theme = 'Choose one of the four themes.';
+  if (!THEMES.includes(story.theme)) errors.theme = 'Choose a story theme.';
   if (!story.narrative?.trim() || story.narrative.trim().length < 30 || story.narrative.length > 30000) errors.narrative = 'Tell your story in 30–30,000 characters.';
   if (story.media?.length && !story.transcript?.trim()) errors.transcript = 'Add a transcript or description for your attachments.';
   if (story.transcript?.length > 30000) errors.transcript = 'Keep the transcript or description within 30,000 characters.';
