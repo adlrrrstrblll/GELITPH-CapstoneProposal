@@ -63,6 +63,13 @@ try {
   await page.call('Page.navigate', { url: url + '/#home' });
   await waitFor(page, "document.documentElement.dataset.ready === 'true'");
   check('Homepage presents both perspectives without repeated sample labels', await evaluate('document.querySelectorAll(".selected-story").length === 2 && !document.querySelector(".sample-note")'));
+  check('The Box tab and duplicate view are removed, with one keepsake selector on Home', await evaluate('!document.querySelector("[data-nav=box], [data-view=box], .footer-links a[href*=box]") && document.querySelectorAll("#home-objects [data-object-select]").length === 4 && document.querySelectorAll("#keepsake-preview").length === 1'));
+  await click('.hero-copy .button-primary');
+  await delay(150);
+  check('Open the box opens Our Stories with active navigation and no duplicate browse link', await evaluate('location.hash === "#stories" && !document.getElementById("stories-view").hidden && document.querySelector("[data-nav=stories]").getAttribute("aria-current") === "page" && !document.querySelector(".hero-browse")'));
+  await go('#home?object=letter');
+  await evaluate('document.getElementById("keepsake-preview").scrollIntoView({block:"center",behavior:"instant"})');
+  await screenshot('desktop-letter-preview');
   await go('#about');
   await click('[data-language="fil"]');
   check('Filipino introduction switches on', await evaluate('!document.querySelector("#intro-fil").hidden && document.querySelector("#intro-en").hidden'));
@@ -73,6 +80,52 @@ try {
   await screenshot('desktop-home');
   await go('#stories');
   check('Archive lists ten stories without sample counts or badges', await evaluate('document.querySelectorAll(".archive-row").length === 10 && document.querySelector("#stories-view .archive-summary").hidden && !document.querySelector("#story-list .sample-badge")'));
+  check('Each story card has a seeded like total and an independent accessible button', await evaluate('document.querySelectorAll("#story-list [data-like-id]").length === 10 && document.querySelector("#story-list [data-like-id=sample-lina] [data-like-count]").textContent === "128" && !document.querySelector("a button")'));
+  await evaluate('document.querySelector("#story-list [data-like-id=sample-lina]").focus()');
+  await page.call('Input.dispatchKeyEvent', { type: 'keyDown', key: ' ', code: 'Space', windowsVirtualKeyCode: 32 });
+  await page.call('Input.dispatchKeyEvent', { type: 'keyUp', key: ' ', code: 'Space', windowsVirtualKeyCode: 32 });
+  check('Keyboard liking updates the count once without navigating or losing focus', await evaluate('location.hash === "#stories" && document.activeElement.dataset.likeId === "sample-lina" && document.activeElement.getAttribute("aria-pressed") === "true" && document.activeElement.querySelector("[data-like-count]").textContent === "129"'));
+  await go('#story/sample-lina');
+  check('Each paired account ends with its own author credit and like button', await evaluate('document.querySelectorAll(".story-author-footer").length === 2 && document.querySelector("[data-story-id=sample-lina] .story-author-footer .author-name").textContent === "Lina Reyes" && document.querySelector("[data-story-id=sample-mika] .story-author-footer .author-name").textContent === "Mika" && document.querySelector("[data-story-id=sample-lina]").lastElementChild.classList.contains("story-author-footer")'));
+  check('The liked story keeps its total in reading view without changing its companion', await evaluate('document.querySelector("#story-detail [data-like-id=sample-lina] [data-like-count]").textContent === "129" && document.querySelector("#story-detail [data-like-id=sample-mika] [data-like-count]").textContent === "96"'));
+  await reload();
+  check('Likes persist through a full reload', await evaluate('document.querySelector("#story-detail [data-like-id=sample-lina]").getAttribute("aria-pressed") === "true" && document.querySelector("#story-detail [data-like-id=sample-lina] [data-like-count]").textContent === "129"'));
+  await evaluate('document.querySelector("[data-story-id=sample-lina] .story-author-footer").scrollIntoView({block:"center",behavior:"instant"})');
+  await screenshot('desktop-author-likes');
+  await click('#story-detail [data-like-id=sample-lina]');
+  check('Unliking restores the original count and leaves the reader in place', await evaluate('location.hash === "#story/sample-lina" && document.querySelector("#story-detail [data-like-id=sample-lina]").getAttribute("aria-pressed") === "false" && document.querySelector("#story-detail [data-like-id=sample-lina] [data-like-count]").textContent === "128"'));
+  await go('#stories');
+  check('The collection reflects an unlike made while reading', await evaluate('document.querySelector("#story-list [data-like-id=sample-lina] [data-like-count]").textContent === "128"'));
+  await fill({ 'source-filter': 'liked' });
+  check('Liked stories starts with an actionable empty state rather than seeded popular stories', await evaluate('location.hash === "#stories?source=liked" && document.querySelectorAll(".archive-row").length === 0 && document.querySelector(".empty-state h2").textContent === "No liked stories yet." && Boolean(document.querySelector("[data-reset-filters]"))'));
+  await click('[data-reset-filters]');
+  await click('#story-list [data-like-id=sample-lina]');
+  await click('#story-list [data-like-id=sample-mika]');
+  await fill({ 'source-filter': 'liked' });
+  check('Liked stories shows only the accounts this visitor liked', await evaluate('document.querySelectorAll(".archive-row").length === 2 && [...document.querySelectorAll("#story-list [data-like-id]")].every(button => ["sample-lina", "sample-mika"].includes(button.dataset.likeId))'));
+  await reload();
+  check('The liked filter and saved favorites survive reloading', await evaluate('location.hash === "#stories?source=liked" && document.getElementById("source-filter").value === "liked" && document.querySelectorAll(".archive-row").length === 2'));
+  await fill({ 'perspective-filter': 'left' });
+  check('The liked filter combines with perspective', await evaluate('document.querySelectorAll(".archive-row").length === 1 && document.querySelector("#story-list [data-like-id]").dataset.likeId === "sample-lina"'));
+  await click('[data-theme=Staying]');
+  check('Combined liked filters show no matches without claiming there are no saved favorites', await evaluate('document.querySelectorAll(".archive-row").length === 0 && document.querySelector(".empty-state h2").textContent === "No stories match just yet." && document.getElementById("source-filter").value === "liked"'));
+  await click('#clear-filters');
+  await fill({ 'source-filter': 'liked', search: 'Mika' });
+  await click('#archive-search button');
+  check('Search narrows liked stories by author', await evaluate('document.querySelectorAll(".archive-row").length === 1 && document.querySelector("#story-list [data-like-id]").dataset.likeId === "sample-mika"'));
+  await go('#stories?source=liked');
+  await screenshot('desktop-liked-stories');
+  await click('.archive-story-link');
+  await waitFor(page, '!document.getElementById("story-view").hidden');
+  await click('#story-detail [data-like-id=sample-lina]');
+  await click('.back-link');
+  await waitFor(page, '!document.getElementById("stories-view").hidden');
+  check('Returning from a story preserves the liked filter and reflects an unlike made while reading', await evaluate('location.hash === "#stories?source=liked" && document.querySelectorAll(".archive-row").length === 1 && document.querySelector("#story-list [data-like-id]").dataset.likeId === "sample-mika"'));
+  await evaluate('document.querySelector("#story-list [data-like-id=sample-mika]").focus()');
+  await click('#story-list [data-like-id=sample-mika]');
+  check('Unliking the final favorite removes its card and returns keyboard focus to the filter', await evaluate('document.querySelectorAll(".archive-row").length === 0 && document.querySelector(".empty-state h2").textContent === "No liked stories yet." && document.activeElement.id === "source-filter"'));
+  await click('#clear-filters');
+  check('Clear filters resets liked stories along with the other filters', await evaluate('location.hash === "#stories" && document.getElementById("source-filter").value === "all" && document.querySelectorAll(".archive-row").length === 10'));
   for (const [theme, count] of [['Leaving', 2], ['Staying', 2], ['Remembering', 2], ['Coming Home', 2], ['Belonging', 2]]) {
     await click('[data-theme="' + theme + '"]');
     check(theme + ' filter returns its stories', await evaluate('document.querySelectorAll(".archive-row").length') === count);
@@ -89,12 +142,14 @@ try {
   check('Perspective filter finds five family accounts', await evaluate('document.querySelectorAll(".archive-row").length === 5'));
   await click('#clear-filters');
   await screenshot('desktop-archive');
+  await evaluate('document.querySelector("#story-list .archive-row").scrollIntoView({block:"start",behavior:"instant"})');
+  await screenshot('desktop-story-likes');
   check('Header uses the project logo and the approved green and white palette', await evaluate('getComputedStyle(document.querySelector(".site-header")).backgroundColor === "rgb(32, 63, 50)" && getComputedStyle(document.querySelector(".site-header")).color === "rgb(252, 250, 245)" && document.querySelector(".brand img").naturalWidth > 0'));
   await go('#box?object=journey');
-  check('Box deep link selects a journey and opens its matching story', await evaluate('document.getElementById("selected-object-title").textContent === "A journey" && document.getElementById("selected-object-story").hash === "#story/sample-joel"'));
+  check('Legacy Box deep links redirect to the matching keepsake on Home', await evaluate('location.hash === "#home?object=journey" && !document.getElementById("home-view").hidden && document.querySelector("[data-nav=home]").getAttribute("aria-current") === "page" && document.getElementById("selected-object-title").textContent === "A journey" && document.getElementById("selected-object-story").hash === "#story/sample-joel"'));
   await click('[data-object-select="taste"]');
   check('Choosing an object changes the image, selected state, and story link', await evaluate('document.getElementById("selected-object-image").src.endsWith("adobo.jpg") && document.querySelector("[data-object-select=taste]").getAttribute("aria-pressed") === "true" && document.getElementById("selected-object-story").hash === "#story/sample-ben"'));
-  await screenshot('desktop-box');
+  await screenshot('desktop-keepsakes');
   for(const id of ['ari','nora','camille','elena']) {
     await go('#story/sample-'+id);
     check('New '+id+' account opens with its companion', await evaluate('document.querySelectorAll(".paired-stories .story-account").length === 2 && document.querySelector("[data-story-id=sample-'+id+']") !== null'));
@@ -127,10 +182,10 @@ try {
   check('Story cards have a visible hover shadow', await evaluate('getComputedStyle(document.querySelector(".archive-row")).boxShadow !== "none"'));
   await page.call('Input.dispatchMouseEvent',{type:'mouseMoved',x:5,y:5});
   await go('#story/sample-teresa');
-  check('Reading metadata shows a plain author and separate theme tag', await evaluate('document.querySelector("[data-story-id=sample-teresa] .account-author").textContent === "Teresa" && document.querySelector("[data-story-id=sample-teresa] .theme-chip").textContent === "Coming Home" && !/sample pseudonym|SAMPLE|\\/Coming Home/.test(document.querySelector("[data-story-id=sample-teresa] .account-meta").textContent)'));
+  check('Reading metadata shows a plain author and separate theme tag', await evaluate('document.querySelector("[data-story-id=sample-teresa] .account-author").textContent === "Teresa Mendoza" && document.querySelector("[data-story-id=sample-teresa] .theme-chip").textContent === "Coming Home" && !/sample pseudonym|SAMPLE|\\/Coming Home/.test(document.querySelector("[data-story-id=sample-teresa] .account-meta").textContent)'));
   check('The repeated fictional-story notice is removed from reading pages', await evaluate('!document.querySelector(".sample-disclosure") && !document.getElementById("story-detail").textContent.includes("Fictional sample accounts. Photographs are illustrative")'));
   await screenshot('desktop-clean-metadata');
-  for(const view of ['home','box','stories','explore','about','submit']) {
+  for(const view of ['home','stories','explore','about','submit']) {
     await click('.main-nav [data-nav="'+view+'"]');
     await waitFor(page,'!document.querySelector("[data-view='+view+']").hidden');
     await delay(250);
@@ -140,6 +195,9 @@ try {
   await click('.main-nav [data-nav="about"]');
   await waitFor(page,'!document.getElementById("about-view").hidden');
   check('Reduced-motion navigation changes pages without animating them',await evaluate('document.getElementById("about-view").getAnimations().length===0'));
+  await go('#home?object=journey');
+  await click('[data-object-select=taste]');
+  check('Reduced-motion keepsake selection updates without an animation', await evaluate('document.getElementById("keepsake-preview").getAnimations().length === 0 && document.getElementById("selected-object-title").textContent === "A taste of home"'));
   await page.call('Emulation.setEmulatedMedia',{features:[]});
   await evaluate('location.hash="#home";location.hash="#box";location.hash="#stories";location.hash="#about";');
   await delay(300);
@@ -167,7 +225,7 @@ try {
   check('The language preference persists even without a language URL parameter',await evaluate('!location.hash.includes("lang=") && document.getElementById("story-list").textContent.includes("Mainit pa rin dito")'));
   await click('#stories-view [data-reading-language="en"]');
   await fill({search:'kurtina'});await click('#archive-search button');
-  check('Search finds Filipino narrative words while displaying English titles',await evaluate('document.querySelectorAll(".archive-row").length===1 && document.querySelector(".archive-row").hash.includes("sample-teresa") && document.querySelector(".archive-row h2").textContent==="We kept your place at the table"'));
+  check('Search finds Filipino narrative words while displaying English titles',await evaluate('document.querySelectorAll(".archive-row").length===1 && document.querySelector(".archive-story-link").hash.includes("sample-teresa") && document.querySelector(".archive-row h2").textContent==="We kept your place at the table"'));
   await click('#clear-filters');
   await go('#story/sample-teresa?lang=fil');
   await click('#story-view [data-reading-language="en"]');
@@ -222,6 +280,9 @@ try {
   await waitFor(page, "document.documentElement.dataset.ready === 'true' && document.querySelector('.story-account[data-story-id]')");
   check('Story and media survive a page refresh', (await records())[0].media.length === 3 && await evaluate('document.querySelectorAll(".story-media").length === 3'));
   check('User text is escaped and never executed as HTML', await evaluate('!window.unsafeStory && document.querySelector(".account-meta").textContent.includes("QA <writer>") && document.querySelector(".story-narrative").textContent.includes("<script>")'));
+  check('A new contribution credits its author and starts with zero likes', await evaluate('document.querySelector(".story-author-footer .author-name").textContent === "QA <writer>" && document.querySelector("#story-detail [data-like-count]").textContent === "0"'));
+  await click('#story-detail [data-like-id]');
+  check('A new contribution can be liked while retaining its media attachments', await evaluate('document.querySelector("#story-detail [data-like-count]").textContent === "1" && document.querySelectorAll(".story-media").length === 3'));
   await waitFor(page, 'document.querySelector(".story-media img").naturalWidth > 0 && document.querySelector("audio").readyState >= 1 && document.querySelector("video").readyState >= 1');
   await evaluate('document.querySelector("audio").play()');
   await waitFor(page, 'document.querySelector("audio").currentTime > .1');
@@ -327,17 +388,27 @@ try {
       check('Mobile navigation closes after selecting a page', await evaluate('document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false"'));
     } else await go('#stories');
     await noOverflow(width + 'px archive fits the viewport');
-    if (width === 390) await screenshot('mobile-archive');
+    await fill({ 'source-filter': 'liked' });
+    await noOverflow(width + 'px liked stories filter fits the viewport');
+    if (width === 390) await screenshot('mobile-liked-stories');
+    await click('#clear-filters');
+    if (width === 390) {
+      await screenshot('mobile-archive');
+      await evaluate('document.querySelector("#story-list .archive-row").scrollIntoView({block:"start",behavior:"instant"})');
+      await screenshot('mobile-story-likes');
+    }
     await go('#story/sample-lina');
     await noOverflow(width + 'px paired story fits the viewport');
     if (width === 390) {
       check('Paired accounts stack vertically on phones', await evaluate('getComputedStyle(document.querySelector(".paired-stories")).gridTemplateColumns.split(" ").length === 1 && document.querySelectorAll(".story-account")[1].getBoundingClientRect().top > document.querySelectorAll(".story-account")[0].getBoundingClientRect().bottom'));
       await screenshot('mobile-paired-story');
+      await evaluate('document.querySelector("[data-story-id=sample-lina] .story-author-footer").scrollIntoView({block:"center",behavior:"instant"})');
+      await screenshot('mobile-author-likes');
     }
-    for(const route of ['box','explore','about']) {
+    for(const route of ['home?object=taste','explore','about']) {
       await go('#'+route);
       await noOverflow(width+'px '+route+' page fits the viewport');
-      if(width===390)await screenshot('mobile-'+route);
+      if(width===390)await screenshot('mobile-'+(route.startsWith('home?') ? 'keepsakes' : route));
     }
     await go('#story/sample-teresa?lang=fil');
     await noOverflow(width + 'px Filipino reading fits the viewport');
@@ -354,12 +425,24 @@ try {
   await page.call('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1000, deviceScaleFactor: 1, mobile: false });
   await go('#submit');
   await screenshot('desktop-submit');
-  const injection = await page.call('Page.addScriptToEvaluateOnNewDocument', { source: 'Object.defineProperty(window,"indexedDB",{get(){throw new DOMException("Blocked for QA","SecurityError")}})' });
+  await go('#stories?source=local');
+  const slowStorage = await page.call('Page.addScriptToEvaluateOnNewDocument', { source: 'const success=Object.getOwnPropertyDescriptor(IDBRequest.prototype,"onsuccess");Object.defineProperty(IDBRequest.prototype,"onsuccess",{configurable:true,get:success.get,set(handler){success.set.call(this,event=>setTimeout(()=>handler.call(this,event),750))}});' });
+  await page.call('Page.reload');
+  await waitFor(page, 'document.querySelectorAll(".story-skeleton").length === 3 && document.getElementById("story-list").getAttribute("aria-busy") === "true"');
+  check('A pending collection load holds its layout with accessible skeleton placeholders', true);
+  await screenshot('desktop-loading-collection');
+  await waitFor(page, 'document.documentElement.dataset.ready === "true"');
+  check('Loading placeholders give way to saved stories when storage resolves', await evaluate('document.querySelectorAll("#story-list .archive-row").length === 2 && !document.querySelector(".story-skeleton") && !document.getElementById("story-list").hasAttribute("aria-busy")'));
+  await page.call('Page.removeScriptToEvaluateOnNewDocument', { identifier: slowStorage.identifier });
+  const injection = await page.call('Page.addScriptToEvaluateOnNewDocument', { source: 'Object.defineProperty(window,"indexedDB",{get(){throw new DOMException("Blocked for QA","SecurityError")}});Object.defineProperty(Storage.prototype,"setItem",{value(){throw new DOMException("Blocked for QA","SecurityError")}})' });
   await reload();
   await waitFor(page, "document.documentElement.dataset.ready === 'true'");
   check('Unavailable browser storage shows a clear notice', await evaluate('!document.getElementById("storage-notice").hidden'));
-  await go('#stories');
+  check('An empty contributions collection offers writing and browsing actions', await evaluate('Boolean(document.querySelector(".empty-state a[href*=submit]")) && Boolean(document.querySelector(".empty-state [data-reset-filters]"))'));
+  await click('[data-reset-filters]');
   check('Sample archive remains usable when storage is blocked', await evaluate('document.querySelectorAll(".archive-row").length === 10'));
+  await click('#story-list [data-like-id=sample-lina]');
+  check('Likes still work for the visit when preference storage is blocked', await evaluate('document.querySelector("#story-list [data-like-id=sample-lina] [data-like-count]").textContent === "129" && document.getElementById("toast").textContent.includes("this visit")'));
   await go('#submit');
   await click('#save-story');
   check('A blocked-storage submission never reports success', await evaluate('!document.getElementById("form-errors").hidden && document.getElementById("submission-success").hidden'));

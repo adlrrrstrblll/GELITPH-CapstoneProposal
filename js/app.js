@@ -1,5 +1,6 @@
 import { FILIPINO_STORIES, FILIPINO_PAIR_HEADINGS, STORY_UI } from './story-translations.js';
-import { bindObjects, showBox } from './objects.js';
+import { bindObjects, showKeepsake } from './objects.js';
+import { likeState, toggleLike, syncLikes, isLikesStorageKey } from './likes.js';
 import { bindResources, showResources, closeResourceVideo } from './resources.js';
 import { MEDIA_CREDITS } from './credits.js';
 import { SAMPLE_STORIES, PAIR_HEADINGS } from './samples.js';
@@ -12,7 +13,6 @@ const $$ = selector => [...document.querySelectorAll(selector)];
 const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
 const excerpt = story => { const text = readingEdition(story).narrative.split('\n')[0]; return text.slice(0,155) + (text.length > 155 ? '…' : ''); };
 const storyLink = story => '#story/' + encodeURIComponent(story.id) + (story.isSample && readingLanguage === 'fil' ? '?lang=fil' : '');
-const arrow = '<span aria-hidden="true">↗</span>';
 let localStories = [];
 let stories = [...SAMPLE_STORIES];
 let storageAvailable = true;
@@ -23,6 +23,7 @@ let routeVersion = 0;
 let toastTimer;
 let pageAnimation;
 let readingLanguage = savedReadingLanguage();
+let storiesLoading = true;
 const objectURLs = new Map();
 
 function mediaURL(medium) {
@@ -33,6 +34,13 @@ function mediaURL(medium) {
 function releaseURLs() {
   for (const url of objectURLs.values()) URL.revokeObjectURL(url);
   objectURLs.clear();
+}
+function releaseUnusedURLs() {
+  // Hidden reading views and lazy archive images can still reference an earlier snapshot.
+  const inUse = new Set($$('img[src], audio[src], video[src], a[href]').map(element => element.getAttribute('src') || element.getAttribute('href')));
+  for (const [blob, url] of objectURLs) {
+    if (!inUse.has(url)) { URL.revokeObjectURL(url); objectURLs.delete(blob); }
+  }
 }
 window.addEventListener('beforeunload', releaseURLs);
 
@@ -48,9 +56,9 @@ function friendlyError(error) {
 }
 async function refreshStories() {
   const stored = await getStories();
-  releaseURLs();
   localStories = stored.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   stories = [...localStories, ...SAMPLE_STORIES];
+  releaseUnusedURLs();
 }
 function savedReadingLanguage() {
   try { return localStorage.getItem('balikbayan-reading-language') === 'fil' ? 'fil' : 'en'; }
@@ -74,6 +82,38 @@ function languageControl() {
 function byline(story) {
   return escapeHTML(story.author);
 }
+function likeButton(story, language = readingLanguage, detailed = false) {
+  const { liked, count } = likeState(story);
+  const ui = STORY_UI[language];
+  return '<button type="button" class="story-like' + (detailed ? ' story-like-detail' : '') + '" data-like-id="' + escapeHTML(story.id) + '" data-like-language="' + language + '" aria-pressed="' + liked + '" aria-label="' + escapeHTML(ui.likeAction + ' “' + readingEdition(story, language).title + '”') + '"><svg class="heart-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>' + (detailed ? '<span data-like-label>' + (liked ? ui.liked : ui.like) + '</span>' : '') + '<span class="like-total"><span data-like-count>' + count + '</span><span class="sr-only"> ' + ui.likes + '</span></span></button>';
+}
+function authorFooter(story, language) {
+  const ui = STORY_UI[language];
+  const initials = story.author.trim().split(/\s+/).slice(0, 2).map(name => Array.from(name)[0]).join('').toLocaleUpperCase();
+  return '<footer class="story-author-footer"><div class="author-credit"><span class="author-initials" aria-hidden="true">' + escapeHTML(initials) + '</span><div><span class="author-label">' + ui.writtenBy + '</span><strong class="author-name">' + byline(story) + '</strong></div></div>' + likeButton(story, language, true) + '</footer>';
+}
+function updateLikeControls() {
+  $$('[data-like-id]').forEach(button => {
+    const story = stories.find(item => item.id === button.dataset.likeId);
+    if (!story) return;
+    const { liked, count } = likeState(story);
+    const ui = STORY_UI[button.dataset.likeLanguage];
+    button.setAttribute('aria-pressed', String(liked));
+    button.querySelector('[data-like-count]').textContent = count;
+    const label = button.querySelector('[data-like-label]');
+    if (label) label.textContent = liked ? ui.liked : ui.like;
+  });
+  if (!$('#stories-view').hidden && archiveParameters().source === 'liked') {
+    const focusedControl = document.activeElement;
+    const focusedIndex = $$('#story-list [data-like-id]').indexOf(focusedControl);
+    renderArchive();
+    if (focusedIndex !== -1) {
+      const controls = $$('#story-list [data-like-id]');
+      const nextControl = controls.find(button => button.dataset.likeId === focusedControl.dataset.likeId) || controls[Math.min(focusedIndex, controls.length - 1)] || $('#source-filter');
+      nextControl.focus({ preventScroll: true });
+    }
+  }
+}
 function thumbnail(story, className) {
   const image = story.media.find(medium => medium.kind === 'image');
   if (image) return '<img class="' + className + '" src="' + escapeHTML(mediaURL(image)) + '" alt="' + escapeHTML(image.description || 'Photograph accompanying ' + story.title) + '" loading="lazy">';
@@ -83,7 +123,7 @@ function renderSelected() {
   const ui = STORY_UI[readingLanguage];
   $('#selected-stories').innerHTML = [SAMPLE_STORIES[0], SAMPLE_STORIES[1]].map(story => {
     const edition = readingEdition(story);
-    return '<a class="selected-story" href="' + storyLink(story) + '">' + thumbnail(story, 'selected-image') + '<div lang="' + readingLanguage + '"><p class="eyebrow">' + ui[story.perspective] + '</p><h3>' + escapeHTML(edition.title) + '</h3><span class="read-link">' + ui.preview + ' ↗</span></div></a>';
+    return '<a class="selected-story" href="' + storyLink(story) + '">' + thumbnail(story, 'selected-image') + '<div lang="' + readingLanguage + '"><p class="eyebrow">' + ui[story.perspective] + '</p><h3>' + escapeHTML(edition.title) + '</h3><span class="read-link">' + ui.preview + '</span></div></a>';
   }).join('');
 }
 
@@ -94,10 +134,19 @@ function archiveParameters() {
     q: (parameters.get('q') || '').slice(0, 150),
     theme: THEMES.includes(parameters.get('theme')) ? parameters.get('theme') : 'all',
     perspective: Object.hasOwn(PERSPECTIVES, parameters.get('perspective')) ? parameters.get('perspective') : 'all',
-    source: ['local', 'samples'].includes(parameters.get('source')) ? parameters.get('source') : 'all'
+    source: ['liked', 'local', 'samples'].includes(parameters.get('source')) ? parameters.get('source') : 'all'
   };
 }
 function renderArchive() {
+  if (storiesLoading) {
+    $('#story-list').setAttribute('aria-busy', 'true');
+    $('#story-list').innerHTML = '<div class="story-skeleton" aria-hidden="true"><span class="skeleton-image"></span><span class="skeleton-line skeleton-short"></span><span class="skeleton-line"></span><span class="skeleton-line skeleton-medium"></span></div>'.repeat(3);
+    $('#stories-view .archive-summary').hidden = false;
+    $('#result-count').textContent = 'Opening the collection…';
+    $('#clear-filters').hidden = true;
+    return;
+  }
+  $('#story-list').removeAttribute('aria-busy');
   const filters = archiveParameters();
   $('#search').value = filters.q;
   $('#perspective-filter').value = filters.perspective;
@@ -110,7 +159,7 @@ function renderArchive() {
     return words.every(word => searchable.includes(word)) &&
       (filters.theme === 'all' || story.theme === filters.theme) &&
       (filters.perspective === 'all' || story.perspective === filters.perspective) &&
-      (filters.source === 'all' || (filters.source === 'samples' ? story.isSample : !story.isSample));
+      (filters.source === 'all' || (filters.source === 'liked' ? likeState(story).liked : filters.source === 'samples' ? story.isSample : !story.isSample));
   });
   const ui = STORY_UI[readingLanguage];
   const unfiltered = !filters.q && filters.theme === 'all' && filters.perspective === 'all' && filters.source === 'all';
@@ -123,10 +172,11 @@ function renderArchive() {
     const featured = results.length > 3 && results.length % 3 === 1 && index === results.length - 1;
     const edition = readingEdition(story);
     const formats = [ui.read, ...(story.media.some(item => item.kind === 'audio') ? [ui.listen] : []), ...(story.media.some(item => item.kind === 'video') ? [ui.watch] : [])].join(' + ');
-    return '<a class="archive-row' + (featured ? ' archive-feature' : '') + '" href="' + storyLink(story) + '"><div class="archive-visual">' + thumbnail(story, 'archive-image') + '</div><div class="archive-copy"' + (story.isSample ? ' lang="' + readingLanguage + '"' : '') + '><div class="story-tags"><span class="theme-chip">' + escapeHTML(story.theme) + '</span><span>' + escapeHTML(ui[story.perspective]) + '</span></div><h2>' + escapeHTML(edition.title) + '</h2><p class="story-byline">' + byline(story) + '</p>' + (featured ? '<p class="story-excerpt">' + escapeHTML(excerpt(story)) + '</p>' : '') + '<span class="read-link">' + formats + ' ↗</span></div></a>';
-  }).join('') : '<div class="empty-state"><h2>No stories here just yet.</h2><p>Try a different word or theme, or add a memory of your own.</p><button class="button button-outline" type="button" data-reset-filters>Show all stories ↗</button></div>';
+    return '<article class="archive-row' + (featured ? ' archive-feature' : '') + '"><div class="archive-visual">' + thumbnail(story, 'archive-image') + '</div><div class="archive-copy"' + (story.isSample ? ' lang="' + readingLanguage + '"' : '') + '><div class="story-tags"><span class="theme-chip">' + escapeHTML(story.theme) + '</span><span>' + escapeHTML(ui[story.perspective]) + '</span></div><h2><a class="archive-story-link" href="' + storyLink(story) + '">' + escapeHTML(edition.title) + '</a></h2><p class="story-byline">' + byline(story) + '</p>' + (featured ? '<p class="story-excerpt">' + escapeHTML(excerpt(story)) + '</p>' : '') + '<div class="archive-actions"><span class="read-link" aria-hidden="true">' + formats + '</span>' + likeButton(story) + '</div></div></article>';
+  }).join('') : filters.source === 'liked' && !stories.some(story => likeState(story).liked) ? '<div class="empty-state"><p class="eyebrow">The stories you keep close</p><h2>No liked stories yet.</h2><p>Select the heart on a story you love. You can find it here whenever you return.</p><button class="button button-outline" type="button" data-reset-filters>Browse all stories</button></div>' : filters.source === 'local' && !localStories.length ? '<div class="empty-state"><p class="eyebrow">A place for your memories</p><h2>Your first story starts here.</h2><p>A person, a place, an ordinary day. Share a memory and find it here whenever you return.</p><a class="button button-primary" href="#submit">Share your story</a><button class="text-link" type="button" data-reset-filters>Browse the collection</button></div>' : '<div class="empty-state"><h2>No stories match just yet.</h2><p>Try another word, or clear the filters to find your way back to the collection.</p><button class="button button-outline" type="button" data-reset-filters>Show all stories</button></div>';
   $('#collection-count').textContent = localStories.length + ' local contribution' + (localStories.length === 1 ? '' : 's');
   lastArchiveHash = location.hash;
+  releaseUnusedURLs();
 }
 
 function updateArchive(patch) {
@@ -165,13 +215,13 @@ function accountHTML(story, single = false, language = readingLanguage) {
     '<h2>' + escapeHTML(edition.title) + '</h2><div class="account-meta"><span class="account-author">' + byline(story) + '</span><span class="theme-chip">' + escapeHTML(story.theme) + '</span></div>' + renderMedia(story, language) + '<div class="story-narrative">' + paragraphs + '</div>' +
     (story.transcript ? '<details class="transcript"><summary>' + ui.transcript + '</summary><p>' + escapeHTML(story.transcript) + '</p></details>' : '') +
     (!story.isSample ? '<div class="local-actions"><span>Saved in this browser. You can manage your contribution here.</span><a class="text-link" href="#submit?edit=' +
-    encodeURIComponent(story.id) + '">Edit story ↗</a><button type="button" class="text-link danger-link" data-delete="' + escapeHTML(story.id) + '">Remove story</button></div>' : '') + '</article>';
+    encodeURIComponent(story.id) + '">Edit story</a><button type="button" class="text-link danger-link" data-delete="' + escapeHTML(story.id) + '">Remove story</button></div>' : '') + authorFooter(story, language) + '</article>';
 }
 
 function renderDetail(id) {
   const story = stories.find(item => item.id === id);
   if (!story) {
-    $('#story-detail').innerHTML = '<div class="route-error"><p class="eyebrow">An empty corner of the box</p><h1 tabindex="-1">This story is not here.</h1><p>It may have been removed, or it may be saved in another browser.</p><a class="button button-primary" href="#stories">Return to the collection ↗</a></div>';
+    $('#story-detail').innerHTML = '<div class="route-error"><p class="eyebrow">An empty corner of the box</p><h1 tabindex="-1">This story is not here.</h1><p>It may have been removed, or it may be saved in another browser.</p><a class="button button-primary" href="#stories">Return to the collection</a></div>';
     return;
   }
   const companion = companionFor(story);
@@ -190,8 +240,8 @@ function renderDetail(id) {
     '<div class="' + (companion ? 'paired-stories' : 'individual-story') + '">' + pair.map(item => accountHTML(item, !companion, language)).join('') + '</div>' +
     (!companion ? '<aside class="missing-companion"><p class="eyebrow">The conversation is still open</p><h3>The other perspective has not been contributed yet.</h3><p>' +
     (story.isSample ? 'This is a fictional sample. Share an independent account from your own experience to begin a real conversation.' : 'A loved one can add their own account and connect it to this story. Both voices will appear together.') + '</p><a class="text-link" href="' +
-    (story.isSample ? '#submit' : '#submit?pair=' + encodeURIComponent(story.id)) + '">' + (story.isSample ? 'Share your own story' : 'Contribute the other perspective') + ' ↗</a></aside>' : '') +
-    '<div class="detail-end"><a class="text-link" href="#explore">' + ui.related + ' ↗</a><a class="button button-outline" href="#submit">' + ui.share + ' ↗</a></div>';
+    (story.isSample ? '#submit' : '#submit?pair=' + encodeURIComponent(story.id)) + '">' + (story.isSample ? 'Share your own story' : 'Contribute the other perspective') + '</a></aside>' : '') +
+    '<div class="detail-end"><a class="text-link" href="#explore">' + ui.related + '</a><a class="button button-outline" href="#submit">' + ui.share + '</a></div>';
   syncReadingLanguage();
   $$('#story-detail audio, #story-detail video').forEach(player => {
     player.addEventListener('error', () => {
@@ -204,6 +254,7 @@ function renderDetail(id) {
       }
     });
   });
+  releaseUnusedURLs();
 }
 function setNavigation(view) {
   $$('.main-nav [data-nav]').forEach(link => {
@@ -218,8 +269,12 @@ function renderRoute() {
   pageAnimation?.cancel();
   const [path, query] = (location.hash.slice(1) || 'home').split('?');
   const parameters = new URLSearchParams(query || '');
-  const validViews = ['home', 'box', 'stories', 'explore', 'about', 'submit'];
-  const alias = path === 'exhibit' ? 'about' : path;
+  const validViews = ['home', 'stories', 'explore', 'about', 'submit'];
+  const alias = path === 'exhibit' ? 'about' : path === 'box' ? 'home' : path;
+  if (path === 'box') {
+    if (!parameters.has('object')) parameters.set('object', 'letter');
+    history.replaceState(null, '', '#home?' + parameters);
+  }
   if (['en', 'fil'].includes(parameters.get('lang'))) {
     storeReadingLanguage(parameters.get('lang'));
     renderSelected();
@@ -233,9 +288,9 @@ function renderRoute() {
   closeResourceVideo();
   $$('[data-view]').forEach(section => { section.hidden = section.dataset.view !== view; });
   setNavigation(view);
-  const titles = { home: 'Stories we carry home', box: 'Inside the box', stories: 'Our Stories', explore: 'Explore & Watch', about: 'About the project', submit: 'Share your story' };
+  const titles = { home: 'Stories we carry home', stories: 'Our Stories', explore: 'Explore & Watch', about: 'About the project', submit: 'Share your story' };
   document.title = (titles[view] || 'Our Stories') + ' — The Balikbayan Project';
-  if (view === 'box') showBox(parameters);
+  if (view === 'home') showKeepsake(parameters);
   if (view === 'stories') renderArchive();
   if (view === 'explore') showResources(parameters);
   if (view === 'story') {
@@ -246,13 +301,15 @@ function renderRoute() {
   if (view === 'submit') renderForm(parameters);
   syncReadingLanguage();
   const section = document.querySelector('[data-view="' + view + '"]');
-  if (document.documentElement.dataset.ready === 'true' && !matchMedia('(prefers-reduced-motion: reduce)').matches && section.animate) {
+  const unpacking = view === 'home' && parameters.has('object');
+  if (!unpacking && document.documentElement.dataset.ready === 'true' && !matchMedia('(prefers-reduced-motion: reduce)').matches && section.animate) {
     pageAnimation = section.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 220, easing: 'cubic-bezier(.2,.7,.2,1)' });
   }
   requestAnimationFrame(() => {
     if (version !== routeVersion) return;
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    document.querySelector('[data-view="' + view + '"] h1')?.focus({ preventScroll: true });
+    if (unpacking) $('#keepsakes').scrollIntoView({ behavior: 'instant', block: 'start' });
+    else window.scrollTo({ top: 0, behavior: 'instant' });
+    (unpacking ? $('#objects-title') : document.querySelector('[data-view="' + view + '"] h1'))?.focus({ preventScroll: true });
   });
 }
 
@@ -303,7 +360,7 @@ function renderForm(parameters) {
   editingStory = localStories.find(story => story.id === parameters.get('edit')) || null;
   if (parameters.has('edit') && !editingStory) showToast('This contribution is not available to edit in this browser.');
   $('#form-heading').innerHTML = editingStory ? 'Give your story<br>another look.' : 'A small piece<br>of your world.';
-  $('#save-story').innerHTML = (editingStory ? 'Save changes' : 'Place my story in the box') + ' ' + arrow;
+  $('#save-story').textContent = editingStory ? 'Save changes' : 'Place my story in the box';
   $('#cancel-edit').hidden = !editingStory;
   if (editingStory) {
     for (const field of ['title', 'author', 'perspective', 'theme', 'narrative', 'transcript']) $('#' + field).value = editingStory[field];
@@ -366,7 +423,7 @@ async function submitStory(event) {
     renderForm(new URLSearchParams());
     const success = $('#submission-success');
     success.innerHTML = '<p class="eyebrow">A memory, safely placed</p><h2>' + (isEditing ? 'Your story has been updated.' : 'Your story is in the box.') + '</h2><p>“' +
-      escapeHTML(story.title) + '” is saved in this browser, including its attachments. Download a backup to keep a separate copy.</p><a class="text-link" href="' + storyLink(story) + '">Read your story ↗</a>';
+      escapeHTML(story.title) + '” is saved in this browser, including its attachments. Download a backup to keep a separate copy.</p><a class="text-link" href="' + storyLink(story) + '">Read your story</a>';
     success.hidden = false;
     success.tabIndex = -1;
     success.focus();
@@ -374,7 +431,7 @@ async function submitStory(event) {
     showFormErrors({ 'related-story': friendlyError(error) });
   } finally {
     $('#save-story').disabled = false;
-    $('#save-story').innerHTML = (editingStory ? 'Save changes' : 'Place my story in the box') + ' ' + arrow;
+    $('#save-story').textContent = editingStory ? 'Save changes' : 'Place my story in the box';
   }
 }
 function openBackup() {
@@ -443,6 +500,9 @@ async function confirmDelete() {
 }
 function bindInteractions() {
   window.addEventListener('hashchange', renderRoute);
+  window.addEventListener('storage', event => {
+    if (isLikesStorageKey(event.key)) { syncLikes(); updateLikeControls(); }
+  });
   $('.menu-toggle').addEventListener('click', () => {
     const open = $('.menu-toggle').getAttribute('aria-expanded') !== 'true';
     $('.menu-toggle').setAttribute('aria-expanded', String(open));
@@ -463,6 +523,14 @@ function bindInteractions() {
   document.addEventListener('click', event => {
     const target = event.target.closest('button, a');
     if (!target) return;
+    if (target.matches('[data-like-id]')) {
+      const story = stories.find(item => item.id === target.dataset.likeId);
+      if (!story) return;
+      const { liked, persisted } = toggleLike(story);
+      updateLikeControls();
+      const ui = STORY_UI[target.dataset.likeLanguage];
+      showToast((liked ? ui.addedLike : ui.removedLike) + (persisted ? '' : ' Browser storage is unavailable; this change lasts for this visit.'));
+    }
     if (target.matches('[data-reading-language]')) {
       const language = target.dataset.readingLanguage;
       if (!['en', 'fil'].includes(language) || language === readingLanguage) return;
@@ -539,12 +607,14 @@ async function initialize() {
   bindResources();
   renderSelected();
   renderCredits();
+  renderRoute();
   try { await refreshStories(); }
   catch (error) {
     storageAvailable = false;
     $('#storage-notice').hidden = false;
     $('#storage-notice').textContent = 'Local storage is unavailable. The built-in stories remain available, but saving, backup, and restore require browser storage. ' + friendlyError(error);
   }
+  storiesLoading = false;
   renderRoute();
   document.documentElement.dataset.ready = 'true';
 }

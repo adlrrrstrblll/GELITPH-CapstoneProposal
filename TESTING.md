@@ -1,8 +1,8 @@
 # Verification notes
 
-The UI implementation was verified on **12 November 2026** with installed Google Chrome in headless mode on macOS, using an isolated browser profile and temporary local server.
+The UI implementation was verified on **16 November 2026** with installed Google Chrome in headless mode on macOS, using an isolated browser profile and temporary local server.
 
-**125 browser checks passed, with no uncaught browser exceptions or console errors.** The static build also completed successfully.
+**153 browser checks passed, with no uncaught browser exceptions or console errors.** The static build also completed successfully.
 
 ## Reproduce
 
@@ -24,13 +24,18 @@ Generated artifacts are ignored by Git:
 ## Covered behavior
 
 - Home pair previews; English/Filipino About introduction; navigation and missing-route recovery.
+- One complete keepsake explorer on Home, with the separate Box tab and view removed. Open the box opens Our Stories, with the duplicate Browse our stories link removed; legacy Box links redirect to the selected object on Home.
+- Seeded prototype like totals on all collection cards; keyboard liking without navigation or focus loss; like/unlike synchronization between cards and reading pages; persistence through reload; independent counts for paired accounts.
+- The Liked stories collection filter shows only the visitor's favorites and combines with search, theme, and perspective. The filter survives reload and returning from a story; unliking removes the account from the filtered list, with keyboard focus preserved. Empty favorites have a browsing action, and Clear filters restores the full collection.
+- Author names or pseudonyms at the end of every account, including new contributions. New contributions begin at zero likes and can be liked without replacing media attachments.
+- Collection skeletons while local storage is loading, followed by the saved stories. Empty contributions offer writing and browsing actions. When preference storage is blocked, likes work for the visit and explain their temporary state.
 - Existing box logo, green header, white navigation with a Home link, and ten stories in five pairs without repeated sample counts or badges.
 - All five story themes, bilingual keyword search, perspective/source filtering, useful empty states, and card hover shadows.
 - Plain author names and separate theme tags; the repeated fictional-story notice is absent from reading pages.
 - Every header link opens its own view with correct active navigation and heading focus. Rapid navigation, browser Back, reduced motion, and returning to an active page are checked.
 - Clicking the active Share Your Story link preserves unsaved form text.
 - Complete Filipino titles and narratives in all five pairs, language switching, direct Filipino links, preference persistence across navigation/reload, and English restoration.
-- Object deep links and selection updating the image, selected state, and story link together.
+- Home object deep links and selection updating the image, quote, description, selected state, and story link together.
 - All four new accounts opening beside their companion.
 - Six credited external resources; Read/Watch and country filters; keyword search/reset; privacy-enhanced YouTube iframe construction and disposal.
 - No YouTube iframe before an explicit play action.
@@ -51,7 +56,9 @@ Generated artifacts are ignored by Git:
 
 ## Visual review and limits
 
-Desktop Home, archive, Box, reading, About, Explore, and submission screenshots, together with representative mobile screenshots, were reviewed. The About and submission hero photos have explicit desktop heights so their intrinsic portrait dimensions do not create empty space beside the copy.
+Desktop Home, keepsakes, archive likes, author credits, collection loading, reading, About, Explore, and submission screenshots, together with representative mobile screenshots, were reviewed. The About hero photo has an explicit desktop height. The selected keepsake photo follows the content height, and the submission photo fills the right half of its header to the page edge. Both crop the photograph without distortion; the submission header stacks its text and photo on phones.
+
+The revised features use sage-tinted neutrals, balanced headings and paragraph wrapping, and short ease-out transitions. Reduced-motion preferences disable animations. Media object URLs remain valid while any visible or hidden page element references them, including lazy archive images after contributions are edited or restored.
 
 The walkthrough scrolls video players into view before checking playback. Both English and Filipino reading layouts are checked at the supported viewport sizes.
 
@@ -60,3 +67,5 @@ YouTube iframe construction is tested without depending on live third-party play
 The verification uses Chromium with emulated viewport sizes, not physical phones. Safari, Firefox, screen-reader interaction, browser quota exhaustion, and maximum-size backups have not been independently verified. Local browser submissions do not become a shared archive when the static files are hosted.
 
 The reading-language preference uses browser preference storage when available. Existing user contributions are kept in their original language and are not automatically translated. The included narration remains English.
+
+Like totals are prototype numbers, not a live shared tally. A visitor's added likes stay in browser preference storage and are separate from contribution backups. Existing fictional author names serve as demonstration identities; no sign-in is required.

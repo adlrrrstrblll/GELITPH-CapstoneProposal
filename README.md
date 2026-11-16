@@ -4,6 +4,10 @@ An interactive literary website about Filipino migration, memory, family, and be
 
 The implementation follows the approved forest-green, cream, and sage design: a box logo beside the header title, textured Home headline, filled photographic sections, a three-column story collection, and a simple contribution form.
 
+Home includes the complete keepsake explorer: select an object to see its photograph, quote, description, and story link. Previous `#box` links redirect to Home, and the separate Box tab has been removed.
+
+Story cards and reading pages include like buttons. Choose **Liked stories** in the Our Stories collection filter to see your favorites; search, theme, and perspective filters still apply. The fictional collection begins with sample totals; a visitor can add or remove one like per story, saved in browser storage. New contributions start at zero. Each account ends with its author's name or pseudonym. Likes and contributions are local to the browser, with no account or shared server required.
+
 ## Run the website
 
 Use Node.js 22 or later. There are no third-party dependencies to install.
