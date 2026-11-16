@@ -31,7 +31,7 @@ Generated artifacts are ignored by Git:
 - Collection skeletons while local storage is loading, followed by the saved stories. Empty contributions offer writing and browsing actions. When preference storage is blocked, likes work for the visit and explain their temporary state.
 - Existing box logo, green header, white navigation with a Home link, and ten stories in five pairs without repeated sample counts or badges.
 - All five story themes, bilingual keyword search, perspective/source filtering, useful empty states, and card hover shadows.
-- Names and theme tags remain distinct from the editorial-summary label; thematic pairs explain that their subjects belong to separate accounts.
+- Names and theme tags appear without an editorial-summary label; thematic pairs explain that their subjects belong to separate accounts.
 - Every header link opens its own view with correct active navigation and heading focus. Rapid navigation, browser Back, reduced motion, and returning to an active page are checked.
 - Clicking the active Share Your Story link preserves unsaved form text.
 - Complete Filipino titles and narratives in all five pairs, language switching, direct Filipino links, preference persistence across navigation/reload, and English restoration.

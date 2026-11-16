@@ -24,7 +24,7 @@ export const SAMPLE_STORIES = [
       {
         "kind": "audio",
         "url": "assets/sunday-narration.wav",
-        "name": "Computer-voiced editorial summary",
+        "name": "Computer-voiced English narration",
         "description": "English computer narration of the first three paragraphs of this summary; not Susan’s voice or an interview recording."
       }
     ],
@@ -324,7 +324,7 @@ export const SAMPLE_STORIES = [
 export const PAIR_HEADINGS = {
   "sample-sunday": {
     "title": "Care across\nthe distance.",
-    "description": "Editorial summaries of separate published family accounts, paired by theme. Susan and Angeli are not from the same family."
+    "description": "Two separate published family accounts, paired by theme. Susan and Angeli are not from the same family."
   },
   "sample-recipe": {
     "title": "Food, gifts,\nand the ties to home.",
@@ -340,6 +340,6 @@ export const PAIR_HEADINGS = {
   },
   "sample-language": {
     "title": "The things that shape\nour belonging.",
-    "description": "Independent essays by Anthonie and Trixia, brought together to explore heritage and family. These are editorial summaries."
+    "description": "Independent essays by Anthonie and Trixia, brought together to explore heritage and family."
   }
 };

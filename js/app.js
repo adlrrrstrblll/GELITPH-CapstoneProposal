@@ -212,7 +212,7 @@ function accountHTML(story, single = false, language = readingLanguage) {
   const paragraphs = edition.narrative.split(/\n\s*\n/).map(paragraph => '<p>' + escapeHTML(paragraph).replaceAll('\n', '<br>') + '</p>').join('');
   return '<article class="story-account' + (single ? ' single-story' : '') + '" data-story-id="' + escapeHTML(story.id) + '"' + (story.isSample ? ' lang="' + language + '"' : '') + '>' +
     '<div class="account-perspective">' + escapeHTML(ui[story.perspective]) + '</div>' +
-    '<h2>' + escapeHTML(edition.title) + '</h2><div class="account-meta"><span class="account-author">' + byline(story) + '</span><span class="theme-chip">' + escapeHTML(story.theme) + '</span>' + (story.contentType === 'editorial-summary' ? '<span>' + ui.summary + '</span>' : '') + '</div>' + renderMedia(story, language) + '<div class="story-narrative">' + paragraphs + '</div>' +
+    '<h2>' + escapeHTML(edition.title) + '</h2><div class="account-meta"><span class="account-author">' + byline(story) + '</span><span class="theme-chip">' + escapeHTML(story.theme) + '</span></div>' + renderMedia(story, language) + '<div class="story-narrative">' + paragraphs + '</div>' +
     (story.transcript ? '<details class="transcript"><summary>' + ui.transcript + '</summary><p>' + escapeHTML(story.transcript) + '</p></details>' : '') +
     (!story.isSample ? '<div class="local-actions"><span>Saved in this browser. You can manage your contribution here.</span><a class="text-link" href="#submit?edit=' +
     encodeURIComponent(story.id) + '">Edit story</a><button type="button" class="text-link danger-link" data-delete="' + escapeHTML(story.id) + '">Remove story</button></div>' : '') + authorFooter(story, language) + '</article>';
@@ -597,7 +597,7 @@ function bindInteractions() {
 }
 function renderCredits() {
   $('#credits-content').innerHTML = MEDIA_CREDITS.map(item => '<p><strong>' + escapeHTML(item.title) + '</strong> — ' + escapeHTML(item.creator) + '. <a href="' + escapeHTML(item.url) + '" target="_blank" rel="noopener noreferrer">Original source</a>' + (item.license ? ' · <a href="' + escapeHTML(item.license) + '" target="_blank" rel="noopener noreferrer">License</a>' : '') + '.</p>').join('') +
-    '<p>Photographs illustrate places and themes; they do not identify the people described in the entries. Images are resized and cropped for the layout.</p><p>The ten built-in entries are editorial summaries of published accounts. Their Filipino versions were prepared for this project. The English narration is computer-voiced; it is not an interview recording. The silent illustrative film uses the credited jeepney photograph.</p>';
+    '<p>Photographs illustrate places and themes; they do not identify the people described in the entries. Images are resized and cropped for the layout.</p><p>The ten built-in entries are based on published accounts. Their Filipino versions were prepared for this project. The English narration is computer-voiced; it is not an interview recording. The silent illustrative film uses the credited jeepney photograph.</p>';
 }
 
 async function initialize() {
