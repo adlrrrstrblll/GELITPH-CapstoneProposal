@@ -90,7 +90,7 @@ function likeButton(story, language = readingLanguage, detailed = false) {
 function authorFooter(story, language) {
   const ui = STORY_UI[language];
   const initials = story.author.trim().split(/\s+/).slice(0, 2).map(name => Array.from(name)[0]).join('').toLocaleUpperCase();
-  return '<footer class="story-author-footer"><div class="author-credit"><span class="author-initials" aria-hidden="true">' + escapeHTML(initials) + '</span><div><span class="author-label">' + ui.writtenBy + '</span><strong class="author-name">' + byline(story) + '</strong></div></div>' + likeButton(story, language, true) + '</footer>';
+  return '<footer class="story-author-footer"><div class="author-credit"><span class="author-initials" aria-hidden="true">' + escapeHTML(initials) + '</span><div><span class="author-label">' + (story.contentType === 'editorial-summary' ? ui.accountOf : ui.writtenBy) + '</span><strong class="author-name">' + byline(story) + '</strong></div></div>' + likeButton(story, language, true) + '</footer>';
 }
 function updateLikeControls() {
   $$('[data-like-id]').forEach(button => {
@@ -212,7 +212,7 @@ function accountHTML(story, single = false, language = readingLanguage) {
   const paragraphs = edition.narrative.split(/\n\s*\n/).map(paragraph => '<p>' + escapeHTML(paragraph).replaceAll('\n', '<br>') + '</p>').join('');
   return '<article class="story-account' + (single ? ' single-story' : '') + '" data-story-id="' + escapeHTML(story.id) + '"' + (story.isSample ? ' lang="' + language + '"' : '') + '>' +
     '<div class="account-perspective">' + escapeHTML(ui[story.perspective]) + '</div>' +
-    '<h2>' + escapeHTML(edition.title) + '</h2><div class="account-meta"><span class="account-author">' + byline(story) + '</span><span class="theme-chip">' + escapeHTML(story.theme) + '</span></div>' + renderMedia(story, language) + '<div class="story-narrative">' + paragraphs + '</div>' +
+    '<h2>' + escapeHTML(edition.title) + '</h2><div class="account-meta"><span class="account-author">' + byline(story) + '</span><span class="theme-chip">' + escapeHTML(story.theme) + '</span>' + (story.contentType === 'editorial-summary' ? '<span>' + ui.summary + '</span>' : '') + '</div>' + renderMedia(story, language) + '<div class="story-narrative">' + paragraphs + '</div>' +
     (story.transcript ? '<details class="transcript"><summary>' + ui.transcript + '</summary><p>' + escapeHTML(story.transcript) + '</p></details>' : '') +
     (!story.isSample ? '<div class="local-actions"><span>Saved in this browser. You can manage your contribution here.</span><a class="text-link" href="#submit?edit=' +
     encodeURIComponent(story.id) + '">Edit story</a><button type="button" class="text-link danger-link" data-delete="' + escapeHTML(story.id) + '">Remove story</button></div>' : '') + authorFooter(story, language) + '</article>';
@@ -234,12 +234,12 @@ function renderDetail(id) {
   const pairHeading = headings[story.pairId] || { title: 'Two sides of\nthe same distance.', description: 'One shared experience. Two ways of remembering it.' };
   document.title = edition.title + ' — The Balikbayan Project';
   $('#story-detail').innerHTML = '<div class="story-reading-toolbar"><a class="back-link" href="' + escapeHTML(lastArchiveHash) + '">← ' + ui.back + '</a>' + (hasTranslation ? languageControl() : '') + '</div><header class="detail-header" lang="' + language + '">' +
-    '<p class="eyebrow">' + (companion ? (language === 'fil' ? 'Pag-uusap sa magkabilang panig' : 'A conversation across distance') : escapeHTML(story.theme)) + '</p><h1 tabindex="-1">' +
+    '<p class="eyebrow">' + (companion ? (story.contentType === 'editorial-summary' ? (language === 'fil' ? 'Mga karanasang pinag-uugnay ng tema' : 'Accounts connected by theme') : (language === 'fil' ? 'Pag-uusap sa magkabilang panig' : 'A conversation across distance')) : escapeHTML(story.theme)) + '</p><h1 tabindex="-1">' +
     (companion ? escapeHTML(pairHeading.title).replaceAll('\n', '<br>') : escapeHTML(edition.title)) + '</h1><p>' +
     (companion ? escapeHTML(pairHeading.description) : 'Every account is a place to begin. This story is waiting for the other side of the conversation.') + '</p></header>' +
     '<div class="' + (companion ? 'paired-stories' : 'individual-story') + '">' + pair.map(item => accountHTML(item, !companion, language)).join('') + '</div>' +
     (!companion ? '<aside class="missing-companion"><p class="eyebrow">The conversation is still open</p><h3>The other perspective has not been contributed yet.</h3><p>' +
-    (story.isSample ? 'This is a fictional sample. Share an independent account from your own experience to begin a real conversation.' : 'A loved one can add their own account and connect it to this story. Both voices will appear together.') + '</p><a class="text-link" href="' +
+    (story.isSample ? 'This entry summarizes a published account. Share an independent account from your own experience to begin a new conversation.' : 'A loved one can add their own account and connect it to this story. Both voices will appear together.') + '</p><a class="text-link" href="' +
     (story.isSample ? '#submit' : '#submit?pair=' + encodeURIComponent(story.id)) + '">' + (story.isSample ? 'Share your own story' : 'Contribute the other perspective') + '</a></aside>' : '') +
     '<div class="detail-end"><a class="text-link" href="#explore">' + ui.related + '</a><a class="button button-outline" href="#submit">' + ui.share + '</a></div>';
   syncReadingLanguage();
@@ -597,7 +597,7 @@ function bindInteractions() {
 }
 function renderCredits() {
   $('#credits-content').innerHTML = MEDIA_CREDITS.map(item => '<p><strong>' + escapeHTML(item.title) + '</strong> — ' + escapeHTML(item.creator) + '. <a href="' + escapeHTML(item.url) + '" target="_blank" rel="noopener noreferrer">Original source</a>' + (item.license ? ' · <a href="' + escapeHTML(item.license) + '" target="_blank" rel="noopener noreferrer">License</a>' : '') + '.</p>').join('') +
-    '<p>Photographs illustrate the places and themes; they do not identify the fictional narrators. Images are resized and cropped for the layout.</p><p>The ten sample stories and their pseudonyms are fictional. The sample narration is computer-voiced. The silent sample film uses the credited jeepney photograph.</p>';
+    '<p>Photographs illustrate places and themes; they do not identify the people described in the entries. Images are resized and cropped for the layout.</p><p>The ten built-in entries are editorial summaries of published accounts. Their Filipino versions were prepared for this project. The English narration is computer-voiced; it is not an interview recording. The silent illustrative film uses the credited jeepney photograph.</p>';
 }
 
 async function initialize() {

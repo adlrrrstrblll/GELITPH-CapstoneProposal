@@ -86,7 +86,7 @@ try {
   await page.call('Input.dispatchKeyEvent', { type: 'keyUp', key: ' ', code: 'Space', windowsVirtualKeyCode: 32 });
   check('Keyboard liking updates the count once without navigating or losing focus', await evaluate('location.hash === "#stories" && document.activeElement.dataset.likeId === "sample-lina" && document.activeElement.getAttribute("aria-pressed") === "true" && document.activeElement.querySelector("[data-like-count]").textContent === "129"'));
   await go('#story/sample-lina');
-  check('Each paired account ends with its own author credit and like button', await evaluate('document.querySelectorAll(".story-author-footer").length === 2 && document.querySelector("[data-story-id=sample-lina] .story-author-footer .author-name").textContent === "Lina Reyes" && document.querySelector("[data-story-id=sample-mika] .story-author-footer .author-name").textContent === "Mika" && document.querySelector("[data-story-id=sample-lina]").lastElementChild.classList.contains("story-author-footer")'));
+  check('Each paired account ends with its own author credit and like button', await evaluate('document.querySelectorAll(".story-author-footer").length === 2 && document.querySelector("[data-story-id=sample-lina] .story-author-footer .author-name").textContent === "Susan" && document.querySelector("[data-story-id=sample-mika] .story-author-footer .author-name").textContent === "Angeli Gabriel" && document.querySelector("[data-story-id=sample-lina]").lastElementChild.classList.contains("story-author-footer")'));
   check('The liked story keeps its total in reading view without changing its companion', await evaluate('document.querySelector("#story-detail [data-like-id=sample-lina] [data-like-count]").textContent === "129" && document.querySelector("#story-detail [data-like-id=sample-mika] [data-like-count]").textContent === "96"'));
   await reload();
   check('Likes persist through a full reload', await evaluate('document.querySelector("#story-detail [data-like-id=sample-lina]").getAttribute("aria-pressed") === "true" && document.querySelector("#story-detail [data-like-id=sample-lina] [data-like-count]").textContent === "129"'));
@@ -110,7 +110,7 @@ try {
   await click('[data-theme=Staying]');
   check('Combined liked filters show no matches without claiming there are no saved favorites', await evaluate('document.querySelectorAll(".archive-row").length === 0 && document.querySelector(".empty-state h2").textContent === "No stories match just yet." && document.getElementById("source-filter").value === "liked"'));
   await click('#clear-filters');
-  await fill({ 'source-filter': 'liked', search: 'Mika' });
+  await fill({ 'source-filter': 'liked', search: 'Angeli Gabriel' });
   await click('#archive-search button');
   check('Search narrows liked stories by author', await evaluate('document.querySelectorAll(".archive-row").length === 1 && document.querySelector("#story-list [data-like-id]").dataset.likeId === "sample-mika"'));
   await go('#stories?source=liked');
@@ -131,9 +131,9 @@ try {
     check(theme + ' filter returns its stories', await evaluate('document.querySelectorAll(".archive-row").length') === count);
   }
   await click('#clear-filters');
-  await fill({ search: 'The space between Sunday calls' });
+  await fill({ search: 'Working abroad for a safer home' });
   await click('#archive-search button');
-  check('Title/keyword search finds the intended account', await evaluate('document.querySelectorAll(".archive-row").length === 1 && document.querySelector(".archive-row").textContent.includes("Sunday calls")'));
+  check('Title/keyword search finds the intended account', await evaluate('document.querySelectorAll(".archive-row").length === 1 && document.querySelector(".archive-row").textContent.includes("safer home")'));
   await fill({ search: 'no-such-memory-xyz' });
   await click('#archive-search button');
   check('Empty search displays an actionable empty state', await evaluate('Boolean(document.querySelector(".empty-state [data-reset-filters]"))'));
@@ -182,7 +182,7 @@ try {
   check('Story cards have a visible hover shadow', await evaluate('getComputedStyle(document.querySelector(".archive-row")).boxShadow !== "none"'));
   await page.call('Input.dispatchMouseEvent',{type:'mouseMoved',x:5,y:5});
   await go('#story/sample-teresa');
-  check('Reading metadata shows a plain author and separate theme tag', await evaluate('document.querySelector("[data-story-id=sample-teresa] .account-author").textContent === "Teresa Mendoza" && document.querySelector("[data-story-id=sample-teresa] .theme-chip").textContent === "Coming Home" && !/sample pseudonym|SAMPLE|\\/Coming Home/.test(document.querySelector("[data-story-id=sample-teresa] .account-meta").textContent)'));
+  check('Reading metadata shows a plain author and separate theme tag', await evaluate('document.querySelector("[data-story-id=sample-teresa] .account-author").textContent === "Ma. Sheena Blanca" && document.querySelector("[data-story-id=sample-teresa] .theme-chip").textContent === "Coming Home" && !/sample pseudonym|SAMPLE|\\/Coming Home/.test(document.querySelector("[data-story-id=sample-teresa] .account-meta").textContent)'));
   check('The repeated fictional-story notice is removed from reading pages', await evaluate('!document.querySelector(".sample-disclosure") && !document.getElementById("story-detail").textContent.includes("Fictional sample accounts. Photographs are illustrative")'));
   await screenshot('desktop-clean-metadata');
   for(const view of ['home','stories','explore','about','submit']) {
@@ -220,16 +220,16 @@ try {
   await reload();
   check('Filipino reading choice survives reloading a direct story link',await evaluate('document.querySelector("[data-reading-language=fil]").getAttribute("aria-pressed")==="true" && document.querySelectorAll(".story-account[lang=fil]").length===2'));
   await click('.main-nav [data-nav="stories"]');await delay(260);
-  check('The story collection keeps the Filipino reading choice',await evaluate('document.getElementById("story-list").textContent.includes("Puwesto mo pa rin sa hapag") && !document.getElementById("story-list").textContent.includes("sample pseudonym")'));
+  check('The story collection keeps the Filipino reading choice',await evaluate('document.getElementById("story-list").textContent.includes("Paghihintay sa susunod na pag-uwi") && !document.getElementById("story-list").textContent.includes("sample pseudonym")'));
   await reload();
-  check('The language preference persists even without a language URL parameter',await evaluate('!location.hash.includes("lang=") && document.getElementById("story-list").textContent.includes("Mainit pa rin dito")'));
+  check('The language preference persists even without a language URL parameter',await evaluate('!location.hash.includes("lang=") && document.getElementById("story-list").textContent.includes("Ang pamilyang naghihintay sa paliparan")'));
   await click('#stories-view [data-reading-language="en"]');
-  await fill({search:'kurtina'});await click('#archive-search button');
-  check('Search finds Filipino narrative words while displaying English titles',await evaluate('document.querySelectorAll(".archive-row").length===1 && document.querySelector(".archive-story-link").hash.includes("sample-teresa") && document.querySelector(".archive-row h2").textContent==="We kept your place at the table"'));
+  await fill({search:'maselang'});await click('#archive-search button');
+  check('Search finds Filipino narrative words while displaying English titles',await evaluate('document.querySelectorAll(".archive-row").length===1 && document.querySelector(".archive-story-link").hash.includes("sample-teresa") && document.querySelector(".archive-row h2").textContent==="Waiting for the next homecoming"'));
   await click('#clear-filters');
   await go('#story/sample-teresa?lang=fil');
   await click('#story-view [data-reading-language="en"]');
-  check('Switching back to English restores both accounts without changing their IDs',await evaluate('document.querySelectorAll(".story-account[lang=en]").length===2 && document.querySelector("[data-story-id=sample-teresa] .story-narrative").textContent.includes("Three days before my brother came home")'));
+  check('Switching back to English restores both accounts without changing their IDs',await evaluate('document.querySelectorAll(".story-account[lang=en]").length===2 && document.querySelector("[data-story-id=sample-teresa] .story-narrative").textContent.includes("Ma. Sheena Blanca describes family life")'));
   await go('#story/sample-lina');
   check('Paired sample presents both accounts beside each other', await evaluate('document.querySelectorAll(".paired-stories .story-account").length === 2 && getComputedStyle(document.querySelector(".paired-stories")).gridTemplateColumns.split(" ").length === 2'));
   await waitFor(page, 'document.querySelector("audio").readyState >= 1');
@@ -271,7 +271,7 @@ try {
   await attach('#video', path.join(root, 'assets/remembering.webm'));
   await click('#save-story');
   check('Attachments require an accessible description or transcript', await evaluate('document.getElementById("transcript-error").textContent.length > 0'));
-  const firstHash = await submit({ transcript: 'QA photograph of cardboard boxes; computer-voiced fictional narration; a silent, illustrative jeepney film.' });
+  const firstHash = await submit({ transcript: 'QA photograph of cardboard boxes; computer-voiced editorial summary; a silent, illustrative jeepney film.' });
   const firstId = firstHash.slice(7);
   let saved = await records();
   check('All three media types are stored as persistent binary attachments', saved.length === 1 && saved[0].media.length === 3 && saved[0].media.every(medium => medium.size > 0));
@@ -323,7 +323,7 @@ try {
   assert.ok(downloaded, 'Browser produced a downloadable JSON backup');
   const backupPath = path.join(downloads, downloaded);
   const backup = JSON.parse(await readFile(backupPath, 'utf8'));
-  check('Export downloads local stories with embedded media and excludes fictional samples', backup.stories.length === 2 && backup.sampleStoriesIncluded === false && backup.stories.some(story => story.media.some(medium => medium.data.startsWith('data:audio/'))));
+  check('Export downloads local stories with embedded media and excludes built-in summaries', backup.stories.length === 2 && backup.sampleStoriesIncluded === false && backup.stories.some(story => story.media.some(medium => medium.data.startsWith('data:audio/'))));
   await screenshot('desktop-backup');
   await click('#backup-dialog [data-close-dialog]');
   await go('#story/' + firstId);

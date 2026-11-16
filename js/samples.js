@@ -1,145 +1,345 @@
-// Original fictional writing for demonstration, never represented as interviews.
-// Built-in samples are read-only and do not count toward the collection target.
-const image = (url, description, credit) => ({ kind: 'image', url, name: 'Illustrative photograph', description, credit });
-const airport = image('assets/airport-luggage.jpg', 'Travel bags in an airport waiting area. Illustrative photograph.', 'MChe Lee, via Unsplash');
-const home = image('assets/home.jpg', 'A house in Moalboal, Cebu. Illustrative photograph.', 'Jan Ledermann, via Unsplash');
-const jeepney = image('assets/jeepney.jpg', 'A jeepney on a Manila street. Illustrative photograph.', 'Sadia Afreen, via Unsplash');
-const adobo = image('assets/adobo.jpg', 'Chicken adobo served on a plate. Illustrative photograph.', 'dbgg1979 (CC BY 2.0)');
-const cooking = image('assets/lumpia-prep.jpg', 'Hands wrapping lumpia in a kitchen. Illustrative photograph.', 'Kayte Young, via WFIU');
-const meal = image('assets/shared-meal.jpg', 'People sharing a meal in Baguio. Illustrative photograph.', 'Joyce Romero, via Unsplash');
-
-
+// Source-based editorial summaries for demonstration, not contributor interviews.
+// Source metadata is retained for verification and is not rendered as website citations.
+// Stable legacy IDs preserve existing links and locally saved likes.
 export const SAMPLE_STORIES = [
   {
-    id: 'sample-lina', pairId: 'sample-sunday', title: 'The space between Sunday calls',
-    author: 'Lina Reyes', perspective: 'left', theme: 'Leaving', isSample: true, likes: 128,
-    narrative: 'The first thing I packed was not clothing. It was a photograph of my daughter in her school uniform, standing a little too straight because she wanted to look grown up.\n\nIn the room I rented abroad, I placed it beside the kettle. Every morning, while the water boiled, I looked at the picture and tried to imagine what she was doing. Sometimes I got the time difference wrong. I would call just as she was leaving for school, and all we had time to say was, “Kumain ka na?”\n\nOn Sundays we leave the call open while she does her homework and I fold my laundry. We do not always talk. I hear a tricycle outside our gate, or my sister reminding her to bring in the clothes before it rains. For a little while, the room sounds like home.\n\nI tell her about work, but also about the small things: a bird outside my window, the soup I tried to cook, the word I finally learned to pronounce. I want her to know the person I am here, not only the money I send.\n\nAt the end of each call, she says, “Next Sunday ulit, Ma.” We have made a place for each other in the week.',
-    media: [airport, { kind: 'audio', url: 'assets/sunday-narration.wav', name: 'SAMPLE computer-voiced narration', description: 'Computer-voiced excerpt of this fictional story. This is not an interview recording.' }],
-    transcript: 'Image: travel bags in an airport waiting area, used as an illustration.\nAudio, computer-voiced sample: On Sundays we leave the call open while she does her homework and I fold my laundry. We do not always talk. I hear a tricycle outside our gate, or my sister reminding her to bring in the clothes before it rains. For a little while, the room sounds like home.'
+    "id": "sample-lina",
+    "pairId": "sample-sunday",
+    "title": "Working abroad for a safer home",
+    "author": "Susan",
+    "perspective": "left",
+    "theme": "Leaving",
+    "likes": 128,
+    "isSample": true,
+    "contentType": "editorial-summary",
+    "narrative": "Susan left the Philippines in 2014 to work as a caretaker in Malaysia, later taking nanny jobs in Kuwait and Qatar.\n\nAfter displacement and Typhoon Ondoy, a secure house for her seven children remained a reason to work overseas.\n\nShe sent almost all her earnings home. Video chats and occasional visits connected her with the family she was supporting.\n\nHer account describes the homesickness behind that support: providing for children while missing their years of growing up.",
+    "media": [
+      {
+        "kind": "image",
+        "url": "assets/airport-luggage.jpg",
+        "name": "Illustrative photograph",
+        "description": "Travel bags in an airport waiting area. Illustrative photograph; not the people or home described in this account.",
+        "credit": "MChe Lee, via Unsplash"
+      },
+      {
+        "kind": "audio",
+        "url": "assets/sunday-narration.wav",
+        "name": "Computer-voiced editorial summary",
+        "description": "English computer narration of the first three paragraphs of this summary; not Susan’s voice or an interview recording."
+      }
+    ],
+    "transcript": "Illustrative image: Travel bags in an airport waiting area. This photograph does not depict the people described in the summary.\nComputer-voiced English summary: Susan left the Philippines in 2014 to work as a caretaker in Malaysia, later taking nanny jobs in Kuwait and Qatar. After displacement and Typhoon Ondoy, a secure house for her seven children remained a reason to work overseas. She sent almost all her earnings home. Video chats and occasional visits connected her with the family she was supporting.",
+    "source": {
+      "title": "A Mother’s Strength",
+      "author": "Unbound",
+      "publisher": "Unbound",
+      "published": "2022-07-14",
+      "url": "https://living.unbound.org/Articles/2022/July/AMothersStrength",
+      "accessed": "2026-11-16"
+    }
   },
   {
-    id: 'sample-mika', pairId: 'sample-sunday', title: 'I leave the camera on',
-    author: 'Mika', perspective: 'stayed', theme: 'Staying', isSample: true, likes: 96,
-    narrative: 'When Mama first left, I saved up things to tell her. I wrote them on the back of my notebook: the science quiz, the new girl in class, the way our dog slept under her chair.\n\nBy the time Sunday came, the list felt too long. I usually told her I was fine. I did not know how to explain that a perfectly ordinary Tuesday could be the day I missed her most.\n\nNow we leave the camera on. Sometimes she watches me erase the same answer three times. Sometimes I hear her humming while she folds a shirt. I have learned which corner of her room catches the afternoon light.\n\nLast week I held the phone near the kitchen while Tita cooked. Mama told us we were cutting the onions too thick. We laughed, and for a moment it felt as if she was standing beside the stove.\n\nI still write in the notebook. But I no longer wait for something important to happen before I call. I think the ordinary things are what we have been trying to share.',
-    media: [home],
-    transcript: 'Illustrative photograph of a house in Moalboal, Cebu. It is not the fictional family’s house.'
+    "id": "sample-mika",
+    "pairId": "sample-sunday",
+    "title": "A childhood carried on cassette tapes",
+    "author": "Angeli Gabriel",
+    "perspective": "stayed",
+    "theme": "Staying",
+    "likes": 96,
+    "isSample": true,
+    "contentType": "editorial-summary",
+    "narrative": "Angeli Gabriel grew up apart from her mother, Marlyn, a nurse working in Saudi Arabia. Relatives in the Philippines cared for her.\n\nHer aunt recorded her childhood talking and singing on cassettes and sent them to Marlyn.\n\nAnnual visits could not erase the unfamiliarity: as a baby, Angeli sometimes cried because she did not recognize her mother.\n\nWriting as an adult, she revisits those separations and the family care that sustained them. Their later phone calls continued a relationship shaped by distance.",
+    "media": [
+      {
+        "kind": "image",
+        "url": "assets/home.jpg",
+        "name": "Illustrative photograph",
+        "description": "A house in Moalboal, Cebu. Illustrative photograph; not the people or home described in this account.",
+        "credit": "Jan Ledermann, via Unsplash"
+      }
+    ],
+    "transcript": "Illustrative image: A house in Moalboal, Cebu. This photograph does not depict the people described in the summary.",
+    "source": {
+      "title": "My mother’s journey as an overseas Filipino worker",
+      "author": "Angeli Gabriel",
+      "publisher": "National Geographic",
+      "published": "2019-05-10",
+      "url": "https://www.nationalgeographic.com/culture/article/my-mothers-journey-overseas-filipino-worker",
+      "accessed": "2026-11-16"
+    }
   },
   {
-    id: 'sample-ben', pairId: 'sample-recipe', title: 'A recipe without measurements',
-    author: 'Ben Santos', perspective: 'left', theme: 'Remembering', isSample: true, likes: 214,
-    narrative: 'My father never measured the vinegar. He poured until the pot smelled right, added a little water, and said I would know when it was enough.\n\nYears later, in a kitchen far from the one I grew up in, I called him to ask for the recipe. He said, “Tantiyahin mo lang.” Just estimate. I laughed because it was the least useful instruction and the most familiar thing he could have said.\n\nWe stayed on the phone while I cooked. I showed him the pot. He leaned so close to the screen that I could only see his forehead. More pepper, he said. Let it simmer. Stop stirring.\n\nThe adobo tasted different. The soy sauce was a brand I had never used, and I had bought the wrong cut of meat. Still, I took a photograph and sent it home.\n\nNow I cook it when I have friends over. I tell them how my father taught me, one uncertain instruction at a time. The recipe has become a conversation we can pick up wherever we are.',
-    media: [adobo, { kind: 'video', url: 'assets/remembering.webm', name: 'SAMPLE silent visual study', description: 'A silent, eight-second visual study using the credited jeepney photograph. Original illustrative sample; not contributor footage.' }],
-    transcript: 'Image: chicken adobo. Silent video: a jeepney on a Manila street. The video slowly moves across the same photograph with the words “An ordinary day. A familiar kind of home.” There is no speech or audio track.'
+    "id": "sample-ben",
+    "pairId": "sample-recipe",
+    "title": "Finding Filipino roots through food",
+    "author": "Nastasha Alli",
+    "perspective": "left",
+    "theme": "Remembering",
+    "likes": 214,
+    "isSample": true,
+    "contentType": "editorial-summary",
+    "narrative": "Toronto-based writer Nastasha Alli created Exploring Filipino Kitchens to investigate Philippine food, history, and culture through conversations.\n\nHer guests discuss memories of eating Filipino food and the traditions surrounding it, across the Philippines and the diaspora.\n\nIn 2022, she spent a year traveling in the Philippines, learning what people cooked in homes, restaurants, and other shared spaces.\n\nThe project connects Filipinos abroad with their roots through food stories, while introducing other listeners to the country’s regional cuisines.",
+    "media": [
+      {
+        "kind": "image",
+        "url": "assets/adobo.jpg",
+        "name": "Illustrative photograph",
+        "description": "Chicken adobo served on a plate. Illustrative photograph; not the people or home described in this account.",
+        "credit": "dbgg1979 (CC BY 2.0)"
+      },
+      {
+        "kind": "video",
+        "url": "assets/remembering.webm",
+        "name": "Silent illustrative visual study",
+        "description": "An eight-second visual study of the credited jeepney photograph; illustrative, not footage of Nastasha Alli or her project."
+      }
+    ],
+    "transcript": "Illustrative image: Chicken adobo served on a plate. This photograph does not depict the people described in the summary.\nSilent video: a slow movement across a Manila jeepney photograph, with the words “An ordinary day. A familiar kind of home.” No speech or audio track.",
+    "source": {
+      "title": "About — Exploring Filipino Kitchens",
+      "author": "Nastasha Alli",
+      "publisher": "Exploring Filipino Kitchens",
+      "published": null,
+      "url": "https://www.exploringfilipinokitchens.com/about",
+      "accessed": "2026-11-16"
+    }
   },
   {
-    id: 'sample-ramon', pairId: 'sample-recipe', title: 'Tell me when it starts to simmer',
-    author: 'Ramon', perspective: 'stayed', theme: 'Remembering', isSample: true, likes: 173,
-    narrative: 'When my son called to ask how to cook adobo, I almost said, “You have watched me do this a hundred times.” Instead I told him to show me his pot.\n\nThere were things I could not tell through a screen. I could not smell the vinegar or hear how hard it was boiling. So we worked slowly. He held up bottles. I asked him to tilt the camera. We both pretended the connection was better than it was.\n\nWhen he sent a photograph of the finished meal, I showed it to his mother. She said the sauce looked too thin. Then she asked me to save the picture.\n\nI used to think I needed big news before I could call him. Now I ask what he has cooked. He asks what we have had for lunch. There are days when that is the whole conversation.\n\nThe kitchen is quieter without him opening every lid. But sometimes, when my phone rings beside the chopping board, it feels a little less quiet.',
-    media: [cooking], transcript: 'Illustrative photograph of hands preparing lumpia; not the fictional narrator.'
+    "id": "sample-ramon",
+    "pairId": "sample-recipe",
+    "title": "What arrives inside a balikbayan box",
+    "author": "Luz Rimban",
+    "perspective": "stayed",
+    "theme": "Remembering",
+    "likes": 173,
+    "isSample": true,
+    "contentType": "editorial-summary",
+    "narrative": "Luz Rimban remembers receiving American goods from an aunt who migrated to the United States as a nurse.\n\nLong before door-to-door boxes became familiar, returning Filipinos carried gifts for relatives and friends.\n\nOne kitchen memory is of her grandmother making pancakes in a Teflon pan sent from San Diego. Ordinary goods changed everyday routines.\n\nFor Rimban, these packages communicated continuing affection. Soap, clothes, food, and cookware reassured people in the Philippines that relatives overseas still remembered them.",
+    "media": [
+      {
+        "kind": "image",
+        "url": "assets/lumpia-prep.jpg",
+        "name": "Illustrative photograph",
+        "description": "Hands wrapping lumpia in a kitchen. Illustrative photograph; not the people or home described in this account.",
+        "credit": "Kayte Young, via WFIU"
+      }
+    ],
+    "transcript": "Illustrative image: Hands wrapping lumpia in a kitchen. This photograph does not depict the people described in the summary.",
+    "source": {
+      "title": "Out of the Balikbayan Box",
+      "author": "Luz Rimban",
+      "publisher": "VERA Files",
+      "published": "2015-08-25",
+      "url": "https://verafiles.org/articles/out-of-the-balikbayan-box",
+      "note": "VERA Files republishes an essay originally written for PCIJ in 2005.",
+      "accessed": "2026-11-16"
+    }
   },
   {
-    id: 'sample-teresa', pairId: 'sample-homecoming', title: 'We kept your place at the table',
-    author: 'Teresa Mendoza', perspective: 'stayed', theme: 'Coming Home', isSample: true, likes: 187,
-    narrative: 'Three days before my brother came home, I washed the curtains. There was no reason he would notice them. It was simply something I could do with the waiting.\n\nWe argued in the family chat about what to cook. He asked us not to make a fuss. Then he sent a list of dishes he had missed, which was his way of making a fuss too.\n\nAt the airport I worried that we would not know how to be around each other. We had become good at calls that lasted twenty minutes. A whole month together felt like a different language.\n\nIn the car, he asked us to open the windows. He pointed out a shop that was gone and another that had changed its name. At home, he sat in his old place and asked who had moved the rice cooker.\n\nWe laughed. The next morning we had to learn each other’s routines again. Homecoming, I think, is made of those small adjustments. We kept a place for him, but we were all allowed to have changed.',
-    media: [meal], transcript: 'Illustrative photograph of a shared meal in Baguio; not a photograph of the fictional family.'
+    "id": "sample-teresa",
+    "pairId": "sample-homecoming",
+    "title": "Waiting for the next homecoming",
+    "author": "Ma. Sheena Blanca",
+    "perspective": "stayed",
+    "theme": "Coming Home",
+    "likes": 187,
+    "isSample": true,
+    "contentType": "editorial-summary",
+    "narrative": "Ma. Sheena Blanca describes family life around her husband Rodrigo’s seafaring contracts, which kept him away for eight to ten months.\n\nAfter a difficult pregnancy, she left overseas nursing work and stayed in the Philippines with their son, Gabriel.\n\nGabriel missed his father intensely, sometimes waking in tears or seeking comfort in his clothes.\n\nSheena explained that his father would return after his contract. Their account shows how waiting for homecoming becomes part of raising a child.",
+    "media": [
+      {
+        "kind": "image",
+        "url": "assets/shared-meal.jpg",
+        "name": "Illustrative photograph",
+        "description": "People sharing a meal in Baguio. Illustrative photograph; not the people or home described in this account.",
+        "credit": "Joyce Romero, via Unsplash"
+      }
+    ],
+    "transcript": "Illustrative image: People sharing a meal in Baguio. This photograph does not depict the people described in the summary.",
+    "source": {
+      "title": "One Dream, Separate Lives: How Migrant Families Cope",
+      "author": "Mary Kathleen Quiano-Castro",
+      "publisher": "The ASEAN Magazine",
+      "published": "2023-06-28",
+      "url": "https://theaseanmagazine.asean.org/article/one-dream-separate-lives-how-migrant-families-cope/",
+      "note": "Uses the Rodrigo and Ma. Sheena Blanca section, not the separate Consignado family interview.",
+      "accessed": "2026-11-16"
+    }
   },
   {
-    id: 'sample-joel', pairId: 'sample-homecoming', title: 'A familiar road, a different me',
-    author: 'Joel Mendoza', perspective: 'left', theme: 'Coming Home', isSample: true, likes: 142,
-    narrative: 'I thought I would recognize everything on the drive home. Instead I kept asking questions. Was that bakery always there? When did the road get wider? Who painted the gate?\n\nMy sister laughed and said I had become a tourist. I laughed too, although it bothered me more than I expected. I had kept home still in my memory, as if everyone had agreed to wait.\n\nFor the first few days, I woke before the rest of the house. I made coffee and sat outside. Little by little, the morning sounds became familiar again. A neighbor swept the pavement. Someone called to a child who was late for school.\n\nI began helping with ordinary errands. I learned the new route to the market. I listened to stories that had never made it into a phone call.\n\nI still have a life in another country. I am learning that this does not cancel the one I have here. Maybe belonging can be something we keep making, even after we return.',
-    media: [jeepney], transcript: 'Illustrative photograph of a jeepney in Manila, used to evoke everyday travel. Not footage of a contributor’s return.'
+    "id": "sample-joel",
+    "pairId": "sample-homecoming",
+    "title": "Starting again after returning home",
+    "author": "Elsilyn Nitura",
+    "perspective": "left",
+    "theme": "Coming Home",
+    "likes": 142,
+    "isSample": true,
+    "contentType": "editorial-summary",
+    "narrative": "Elsilyn Nitura left teaching to work overseas again in 2015, hoping to support her six children.\n\nShe returned to the Philippines in 2021 after contracting COVID-19 twice. Finding work and adjusting with limited savings proved difficult.\n\nShe began selling spring rolls and marinated fish online, then joined community activities and migrant-worker training.\n\nHer experience became a way to help others. She reported assisting five abused overseas workers through connections developed with the Migrant Worker Resource Centre.",
+    "media": [
+      {
+        "kind": "image",
+        "url": "assets/jeepney.jpg",
+        "name": "Illustrative photograph",
+        "description": "A jeepney on a Manila street. Illustrative photograph; not the people or home described in this account.",
+        "credit": "Sadia Afreen, via Unsplash"
+      }
+    ],
+    "transcript": "Illustrative image: A jeepney on a Manila street. This photograph does not depict the people described in the summary.",
+    "source": {
+      "title": "Life experiences help Filipino workers avoid pitfalls of migration",
+      "author": "International Labour Organization",
+      "publisher": "International Labour Organization",
+      "published": "2023-05-17",
+      "url": "https://www.ilo.org/resource/article/life-experiences-help-filipino-workers-avoid-pitfalls-migration",
+      "note": "Uses Elsilyn Nitura’s account; the article also profiles Aloha Gozon.",
+      "accessed": "2026-11-16"
+    }
+  },
+  {
+    "id": "sample-ari",
+    "pairId": "sample-weather",
+    "title": "A warm hand in an Ontario winter",
+    "author": "Mae Olandesca",
+    "perspective": "left",
+    "theme": "Leaving",
+    "likes": 83,
+    "isSample": true,
+    "contentType": "editorial-summary",
+    "narrative": "During her first Ontario winter, Mae Olandesca found the cold intimidating and spent weeks mostly indoors.\n\nA community outing brought her to The ROC in Georgina. When her hands became painfully cold, a child named Yassi offered a warm hand.\n\nFor Mae, that small gesture made the unfamiliar season feel less lonely and represented the people caring for her in Canada.\n\nHer reflection connects settling into a new country with everyday kindness: a sense of belonging can begin with someone reaching out.",
+    "media": [
+      {
+        "kind": "image",
+        "url": "assets/winter.jpg",
+        "name": "Illustrative photograph",
+        "description": "A winter street scene in Toronto. Illustrative photograph; not the people or home described in this account.",
+        "credit": "Rolandas S, via Unsplash"
+      }
+    ],
+    "transcript": "Illustrative image: A winter street scene in Toronto. This photograph does not depict the people described in the summary.",
+    "source": {
+      "title": "My First Ontario Winter: Warm Hands and a Beautiful Lesson",
+      "author": "Mae Olandesca",
+      "publisher": "The Other Side of Mae",
+      "published": "2022-02-24",
+      "updated": "2026-09-22",
+      "url": "https://theothersideofmae.com/warm-hands-my-story-of-heat-transfer-in-ontario-tourist-attraction-winter/",
+      "accessed": "2026-11-16"
+    }
+  },
+  {
+    "id": "sample-nora",
+    "pairId": "sample-weather",
+    "title": "The family at the airport gate",
+    "author": "Pauline Joyce Gonzalvo",
+    "perspective": "stayed",
+    "theme": "Staying",
+    "likes": 67,
+    "isSample": true,
+    "contentType": "editorial-summary",
+    "narrative": "Before studying in Taiwan, Pauline Joyce Gonzalvo knew migration mainly from the side of relatives staying in the Philippines.\n\nHer childhood included airport welcomes and farewells as family members living abroad returned for visits.\n\nShe remembers waiting outside the terminal and watching her parents help departing relatives with travel arrangements. The difficult part was the goodbye.\n\nLeaving for graduate study in 2017 changed her position. Having been both the one remaining and the one departing, she understood the separation differently.",
+    "media": [
+      {
+        "kind": "image",
+        "url": "assets/sari-store.jpg",
+        "name": "Illustrative photograph",
+        "description": "Neighbors outside a sari-sari store in Cebu City. Illustrative photograph; not the people or home described in this account.",
+        "credit": "XT7 Core, via Unsplash"
+      }
+    ],
+    "transcript": "Illustrative image: Neighbors outside a sari-sari store in Cebu City. This photograph does not depict the people described in the summary.",
+    "source": {
+      "title": "Vignettes and Fragments: Filipino Musings in a Foreign Country",
+      "author": "Pauline Joyce Gonzalvo",
+      "publisher": "Cha: An Asian Literary Journal",
+      "published": null,
+      "url": "https://www.asiancha.com/content/view/3216/674/",
+      "accessed": "2026-11-16"
+    }
+  },
+  {
+    "id": "sample-camille",
+    "pairId": "sample-language",
+    "title": "Finding identity in family photographs",
+    "author": "Anthonie Tumpag",
+    "perspective": "left",
+    "theme": "Belonging",
+    "likes": 156,
+    "isSample": true,
+    "contentType": "editorial-summary",
+    "narrative": "Anthonie Tumpag began noticing familiar Philippine objects in the backgrounds of old family photographs.\n\nCarvings and household decorations that once seemed ordinary became clues to his Filipino American identity.\n\nCoins and documents inherited from his grandfather helped begin a collection of Filipiniana. He researched the objects and asked relatives about their traditions.\n\nHis essay presents cultural belonging as an ongoing process of discovery. Family photographs preserve more than faces; the things around them can open a path toward heritage.",
+    "media": [
+      {
+        "kind": "image",
+        "url": "assets/writing.jpg",
+        "name": "Illustrative photograph",
+        "description": "A person writing in a notebook over coffee. Illustrative photograph; not the people or home described in this account.",
+        "credit": "Oliver Kallion, via Unsplash"
+      }
+    ],
+    "transcript": "Illustrative image: A person writing in a notebook over coffee. This photograph does not depict the people described in the summary.",
+    "source": {
+      "title": "From Family Photos to Filipiniana: Piecing Together My Filipino American Identity",
+      "author": "Anthonie Tumpag",
+      "publisher": "Smithsonian Center for Folklife and Cultural Heritage",
+      "published": "2022-05-01",
+      "url": "https://folklife.si.edu/magazine/family-photos-filipiniana-filipino-american-identity",
+      "accessed": "2026-11-16"
+    }
+  },
+  {
+    "id": "sample-elena",
+    "pairId": "sample-language",
+    "title": "Growing up with a father overseas",
+    "author": "Trixia Marie Policarpio",
+    "perspective": "stayed",
+    "theme": "Belonging",
+    "likes": 119,
+    "isSample": true,
+    "contentType": "editorial-summary",
+    "narrative": "Trixia Marie Policarpio recalls a childhood shaped by her parents’ work and a household focused on education and daily needs.\n\nHer father became an overseas Filipino worker when she was in elementary school, earning more than he could at home.\n\nLater, a semester in South Korea prompted her to reconsider the opportunities and stereotypes attached to being Filipino.\n\nShe connects those reflections with her family’s experience. Looking back at her father’s departure helps her place personal identity within the economic pressures surrounding migration.",
+    "media": [
+      {
+        "kind": "image",
+        "url": "assets/shared-meal.jpg",
+        "name": "Illustrative photograph",
+        "description": "People sharing a meal in Baguio. Illustrative photograph; not the people or home described in this account.",
+        "credit": "Joyce Romero, via Unsplash"
+      }
+    ],
+    "transcript": "Illustrative image: People sharing a meal in Baguio. This photograph does not depict the people described in the summary.",
+    "source": {
+      "title": "Am I Proud To Be a Filipino?",
+      "author": "Trixia Marie Policarpio",
+      "publisher": "Positively Filipino",
+      "published": "2025-02-05",
+      "url": "https://www.positivelyfilipino.com/magazine/am-i-proud-to-be-a-filipino",
+      "note": "The stayed perspective concerns her childhood while her father worked overseas; her later exchange semester is contextualized separately.",
+      "accessed": "2026-11-16"
+    }
   }
-,
-{
-  "id": "sample-ari",
-  "pairId": "sample-weather",
-  "title": "The first winter coat",
-  "author": "Ari",
-  "likes": 83,
-  "perspective": "left",
-  "theme": "Leaving",
-  "isSample": true,
-  "narrative": "I bought my first winter coat during a sale in September. Outside the shop, people were still wearing shorts. I carried the coat home in a bag and sent Mama a photograph of the price tag. She asked whether it covered my ears.\n\nWhen the first snow came, I discovered that the coat was only the beginning. I needed gloves I could find in the dark, boots that did not leak, and enough time to miss a bus without panicking.\n\nMama began sending a message before I left for work: Nakakain ka na? It was evening for her. Sometimes the photograph attached was of the street outside our house, bright with sun.\n\nOne morning I sent her a short video of snow collecting on my sleeve. She watched it three times. Then she asked me to put my phone away and get my hands back into my pockets.",
-  "media": [
-    {
-      "kind": "image",
-      "url": "assets/winter.jpg",
-      "name": "Illustrative photograph",
-      "description": "A snow-covered street in Toronto. Illustrative image, not a portrait of the narrator.",
-      "credit": "Rolandas S, via Unsplash"
-    }
-  ],
-  "transcript": "Illustrative image: A snow-covered street in Toronto."
-},
-{
-  "id": "sample-nora",
-  "pairId": "sample-weather",
-  "title": "It is still warm here",
-  "author": "Nora Villanueva",
-  "likes": 67,
-  "perspective": "stayed",
-  "theme": "Staying",
-  "isSample": true,
-  "narrative": "The first time Ari showed me snow, I asked if it made a sound. On the screen it looked like rain that had forgotten to fall quickly. Ari laughed and opened the window so I could listen.\n\nI had helped pack the suitcase with shirts, towels, and a small bag of coffee. None of it seemed useful against that weather. I kept wanting to send something warmer, although I did not know what would fit in a box.\n\nSo I send the morning instead. The neighbor opening the store. Our dog asleep beside the gate. The mango tree after someone has swept the yard. I never know which ordinary thing Ari might want to see.\n\nAt first I wrote, It is still warm here, as if it were an invitation to come home. Now I write it because we have found something to talk about before either of us has to say we miss the other.",
-  "media": [
-    {
-      "kind": "image",
-      "url": "assets/sari-store.jpg",
-      "name": "Illustrative photograph",
-      "description": "Neighbors outside a sari-sari store in Cebu City. Illustrative image, not a portrait of the narrator.",
-      "credit": "XT7 Core, via Unsplash"
-    }
-  ],
-  "transcript": "Illustrative image: Neighbors outside a sari-sari store in Cebu City."
-},
-{
-  "id": "sample-camille",
-  "pairId": "sample-language",
-  "title": "The words I kept",
-  "author": "Camille",
-  "likes": 156,
-  "perspective": "left",
-  "theme": "Belonging",
-  "isSample": true,
-  "narrative": "I still know the words Lola used when I was small. Tsinelas. Kumain ka na. Ingat. The longer sentences arrive slowly now. I can hear what I want to say, but when I open my mouth, the words come out in the wrong order.\n\nFor a while, I let my mother do most of the talking on our calls. I smiled, waved, and waited for a question I could answer with oo. Afterwards, I felt as though I had visited a house and stayed by the door.\n\nLast month I started a page in my notebook called Things to tell Lola. I wrote about the plant on my windowsill and a neighbor's noisy dog. Beside each sentence, I left space for the words I would have to ask her for.\n\nOur next call lasted nearly an hour. I said half of it in English. Lola corrected one word, told me a story about our old dog, and asked what I planned to cook for dinner.",
-  "media": [
-    {
-      "kind": "image",
-      "url": "assets/writing.jpg",
-      "name": "Illustrative photograph",
-      "description": "A person writing in a notebook over coffee. Illustrative image, not a portrait of the narrator.",
-      "credit": "Oliver Kallion, via Unsplash"
-    }
-  ],
-  "transcript": "Illustrative image: A person writing in a notebook over coffee."
-},
-{
-  "id": "sample-elena",
-  "pairId": "sample-language",
-  "title": "You can answer in English",
-  "author": "Elena",
-  "likes": 119,
-  "perspective": "stayed",
-  "theme": "Belonging",
-  "isSample": true,
-  "narrative": "When Camille calls, I sometimes forget how long it has been since she lived here. I ask a question as quickly as I would across the dining table. Then I see her turn to her mother for help, and I remember to slow down.\n\nI used to think that if I kept speaking Tagalog, the words would return to her on their own. Perhaps some of them will. But I noticed that our conversations were getting shorter, and I did not want her to feel that every call was a lesson.\n\nNow I say, You can answer in English. Tell me first. We can find the other words later. Sometimes she holds up her notebook, and we spend ten minutes naming things we can see from our windows.\n\nYesterday she told me about a flower that had finally opened. I did not know its English name. She sent a photograph. We looked at it together, and for once neither of us needed to translate anything.",
-  "media": [
-    {
-      "kind": "image",
-      "url": "assets/shared-meal.jpg",
-      "name": "Illustrative photograph",
-      "description": "People sharing a meal in Baguio. Illustrative image, not a portrait of the narrator.",
-      "credit": "Joyce Romero, via Unsplash"
-    }
-  ],
-  "transcript": "Illustrative image: People sharing a meal in Baguio."
-}
 ];
 
 export const PAIR_HEADINGS = {
- 'sample-sunday': { title: 'Two sides of\nthe same distance.', description: 'One shared experience. Two ways of remembering it.' },
- 'sample-recipe': { title: 'A recipe becomes\na conversation.', description: 'A kitchen here. A kitchen there. Something familiar between them.' },
- 'sample-homecoming': { title: 'Coming home.\nFinding each other.', description: 'A familiar place, and the people we are becoming.' },
- 'sample-weather': { title: 'Different weather.\nThe same care.', description: 'A winter coat, a morning message, and the distance between them.' },
- 'sample-language': { title: 'Some words find\ntheir way home.', description: 'Two generations make room for the words they know, and the ones they are learning.' }
+  "sample-sunday": {
+    "title": "Care across\nthe distance.",
+    "description": "Editorial summaries of separate published family accounts, paired by theme. Susan and Angeli are not from the same family."
+  },
+  "sample-recipe": {
+    "title": "Food, gifts,\nand the ties to home.",
+    "description": "Two independent published accounts: a food project in Canada and memories of receiving gifts in the Philippines."
+  },
+  "sample-homecoming": {
+    "title": "Waiting to reunite.\nLearning to return.",
+    "description": "Separate published accounts of Sheena’s seafaring family and Elsilyn’s return. They are paired by theme, not family relationship."
+  },
+  "sample-weather": {
+    "title": "An unfamiliar place.\nA familiar goodbye.",
+    "description": "Two independent essays: Mae’s first Ontario winter and Pauline’s memories of family departures."
+  },
+  "sample-language": {
+    "title": "The things that shape\nour belonging.",
+    "description": "Independent essays by Anthonie and Trixia, brought together to explore heritage and family. These are editorial summaries."
+  }
 };

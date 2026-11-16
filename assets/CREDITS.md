@@ -1,6 +1,6 @@
 # Photography, media, and sources
 
-Photographs are stored locally and cropped/resized by the interface. They illustrate places and themes; people and homes shown in images are not identified as the fictional narrators or their families. There are no generated photographs in the interface.
+Photographs are stored locally and cropped/resized by the interface. They illustrate places and themes; people and homes shown in images are not identified as the subjects of the summaries or their families. There are no generated photographs in the interface.
 
 ## Photographs with recorded reuse licenses
 
@@ -33,11 +33,11 @@ These images match the approved local design preview. No open publication licens
 
 Thumbnails identify their linked videos; the actual videos are embedded from YouTube on demand. No ownership or blanket reuse license is asserted for the videos or thumbnails. Publisher and platform terms continue to apply.
 
-## Original sample content
+## Source-based sample content
 
-The ten sample accounts and their pseudonyms are original fictional writing. They are not interviews, verified personal testimonies, or extracts from the external articles. The four new accounts are the weather pair (Ari/Nora) and language pair (Camille/Elena).
+The ten built-in entries are editorial summaries of real published accounts. Their titles and Filipino translations were prepared for this project. The people named are the subjects of those accounts, not contributors to this website. Pairs connect independent accounts by theme. See [the content source register](../docs/CONTENT-SOURCES.md) for each entry’s original author, publisher, date, and URL.
 
-`sunday-narration.wav` is the existing computer-voiced reading of a fictional excerpt. It is labeled as computer-voiced, not a contributor's recording.
+`sunday-narration.wav` is a computer-voiced reading of the first three English paragraphs of the Susan summary, regenerated for the researched content. Its exact text appears in the story transcript. It is not Susan’s voice or an interview recording.
 
 `remembering.webm` is the existing eight-second silent study made from Sadia Afreen's credited jeepney photograph, with an attribution inside the film. It is not footage of a contributor.
 

@@ -13,7 +13,7 @@ export const RESOURCES = [
     "imageAlt": "Illustrative photograph of a packed balikbayan box",
     "illustrative": true,
     "url": "https://verafiles.org/articles/out-of-the-balikbayan-box",
-    "summary": "A recollection of receiving gifts from relatives abroad, and the family relationships carried in those packages."
+    "summary": "Luz Rimban recalls parcels from relatives in America and the affection behind their gifts. Republished in 2015 from an earlier essay."
   },
   {
     "id": "paglalayag",
@@ -30,7 +30,7 @@ export const RESOURCES = [
     "youtube": "DztANt3UDr8",
     "url": "https://www.youtube.com/watch?v=DztANt3UDr8",
     "source": "https://www.philippineartscouncil.com/paglalayag",
-    "summary": "Filipino voices introduce a documentary project about moving to Canada and building a life there."
+    "summary": "A teaser for a documentary about Filipino migration to Canada, including teachers, nurses, caregivers, and temporary foreign workers."
   },
   {
     "id": "filipino-pride",
@@ -43,21 +43,22 @@ export const RESOURCES = [
     "year": "2025",
     "cover": "Identity, seen from elsewhere.",
     "url": "https://www.positivelyfilipino.com/magazine/am-i-proud-to-be-a-filipino",
-    "summary": "A Filipina exchange student reflects on national identity and how people perceive Filipinos in South Korea.",
+    "summary": "After a 2024 exchange semester in South Korea, Trixia Marie Policarpio reflects on Filipino identity, unequal opportunities, and her father’s overseas work.",
     "image": "assets/korea-story.jpg",
     "imageAlt": "The author in Daejeon, South Korea, as published with her essay"
   },
   {
     "id": "family-photos",
     "title": "From Family Photos to Filipiniana",
-    "creator": "Smithsonian Center for Folklife and Cultural Heritage",
+    "creator": "Anthonie Tumpag · Smithsonian Center for Folklife and Cultural Heritage",
+    "year": "2022",
     "format": "read",
     "type": "Identity essay",
     "theme": "Identity & belonging",
     "country": "United States",
     "cover": "Memory becomes a way of belonging.",
     "url": "https://folklife.si.edu/magazine/family-photos-filipiniana-filipino-american-identity",
-    "summary": "Family photographs and Filipiniana become starting points for thinking about Filipino American identity.",
+    "summary": "Anthonie Tumpag traces Filipino American identity through objects in family photographs and a growing collection of Filipiniana.",
     "image": "assets/writing.jpg",
     "imageAlt": "Illustrative photograph of writing in a notebook",
     "illustrative": true
@@ -76,7 +77,7 @@ export const RESOURCES = [
     "youtube": "vRR3Las9eEQ",
     "url": "https://www.youtube.com/watch?v=vRR3Las9eEQ",
     "source": "https://www.prio.org/news/3603",
-    "summary": "A story from Vietnam about movement, opportunity, and the connections between generations. A companion perspective beyond the Filipino diaspora."
+    "summary": "A MigrationRhythms research animation following a woman in Hanoi and the connection between migration and social mobility. A comparative perspective from Vietnam."
   },
   {
     "id": "filipino-kitchens",
@@ -90,7 +91,7 @@ export const RESOURCES = [
     "imageAlt": "Illustrative photograph of chicken adobo",
     "illustrative": true,
     "url": "https://www.exploringfilipinokitchens.com/about",
-    "summary": "Discover a Toronto-based project connecting Filipino food, cultural memory, and life across the diaspora."
+    "summary": "Nastasha Alli introduces her Toronto-based podcast about Philippine food traditions, history, and memories shared across the diaspora."
   }
 ];
 const $ = selector => document.querySelector(selector);

@@ -1,113 +1,122 @@
-// Filipino reading editions of the original built-in stories.
-// Canonical IDs and stored contributions remain unchanged.
+// Filipino translations of the source-based editorial summaries, prepared for this project.
+// These are not quotations or translations published by the original sources.
 export const FILIPINO_STORIES = {
-  'sample-lina': {
-    title: 'Sa pagitan ng mga tawag tuwing Linggo',
-    paragraphs: [
-      'Hindi damit ang una kong inilagay sa maleta. Larawan iyon ng anak kong nakauniporme, tuwid na tuwid ang tayo dahil gusto niyang magmukhang malaki na siya.',
-      'Sa inuupahan kong kuwarto sa ibang bansa, itinabi ko ang larawan sa takure. Tuwing umaga, habang nagpapakulo ng tubig, tinitingnan ko iyon at iniisip kung ano ang ginagawa niya. Minsan, mali ang tantiya ko sa oras. Tatawag ako kung kailan paalis na siya papuntang paaralan, kaya “Kumain ka na?” lang ang naitatanong namin sa isa’t isa.',
-      'Tuwing Linggo, hinahayaan naming bukas ang tawag habang gumagawa siya ng takdang-aralin at nagtutupi ako ng labada. Hindi naman kami laging nag-uusap. Naririnig ko ang tricycle sa labas ng gate, o ang kapatid kong nagpapaalala sa kanyang ipasok ang mga damit bago umulan. Kahit sandali, parang tunog-bahay ang kuwarto ko.',
-      'Ikinukuwento ko ang trabaho, pati ang maliliit na bagay: isang ibon sa labas ng bintana, ang sopas na sinubukan kong lutuin, ang salitang natutuhan ko nang bigkasin. Gusto kong makilala niya kung sino ako rito, hindi lang kung magkano ang naipapadala ko.',
-      'Bago matapos ang bawat tawag, sinasabi niya, “Sa susunod na Linggo ulit, Ma.” May puwesto na kami sa linggo ng isa’t isa.'
+  "sample-lina": {
+    "title": "Pagtatrabaho sa malayo para sa ligtas na tahanan",
+    "paragraphs": [
+      "Umalis si Susan noong 2014 upang mag-alaga sa Malaysia, saka naging yaya sa Kuwait at Qatar.",
+      "Matapos mapalipat ng tirahan at masalanta ng Ondoy, nais niyang magkaroon ng ligtas na bahay ang pitong anak.",
+      "Halos lahat ng kita niya ay ipinadadala sa pamilya. Video chat at paminsang pagdalaw ang kanilang ugnayan.",
+      "Inilalarawan ng kanyang karanasan ang pangungulila habang nagtatrabaho para sa mga anak na lumalaki nang malayo sa kanya."
     ]
   },
-  'sample-mika': {
-    title: 'Bukas lang ang kamera',
-    paragraphs: [
-      'Noong unang umalis si Mama, iniipon ko ang mga gusto kong sabihin sa kanya. Isinusulat ko sa likod ng kuwaderno: ang pagsusulit sa agham, ang bago naming kaklase, kung paano natutulog ang aso sa ilalim ng upuan niya.',
-      'Pagsapit ng Linggo, parang napakahaba na ng listahan. Madalas, sinasabi ko na lang na ayos ako. Hindi ko alam kung paano ipaliliwanag na puwedeng isang ordinaryong Martes ang araw na pinakanami-miss ko siya.',
-      'Ngayon, hinahayaan na lang naming bukas ang kamera. Minsan, pinapanood niya akong burahin nang tatlong beses ang iisang sagot. Minsan naman, naririnig ko siyang humuhuni habang nagtutupi ng damit. Alam ko na kung saang sulok ng kuwarto niya tumatama ang liwanag sa hapon.',
-      'Noong isang linggo, inilapit ko ang telepono sa kusina habang nagluluto si Tita. Sinabi ni Mama na masyadong makapal ang hiwa namin sa sibuyas. Nagtawanan kami. Sandali, parang nakatayo lang siya sa tabi ng kalan.',
-      'Nagsusulat pa rin ako sa kuwaderno. Pero hindi ko na hinihintay na may malaking mangyari bago tumawag. Sa tingin ko, iyong mga ordinaryong bagay pala ang gusto naming maibahagi sa isa’t isa.'
+  "sample-mika": {
+    "title": "Pagkabata sa mga cassette tape",
+    "paragraphs": [
+      "Lumaki si Angeli Gabriel sa pangangalaga ng mga kamag-anak sa Pilipinas habang nars sa Saudi Arabia ang inang si Marlyn.",
+      "Ipinadadala ng kanyang tiyahin kay Marlyn ang mga cassette ng pagsasalita at pagkanta niya.",
+      "Kahit taunang umuuwi ang ina, may mga pagkakataong umiiyak ang sanggol dahil hindi niya ito nakikilala.",
+      "Sa pagsulat bilang adulto, binalikan ni Angeli ang paghihiwalay at pag-aaruga ng pamilya. Nagpatuloy ang kanilang ugnayan sa mga tawag kahit magkalayo."
     ]
   },
-  'sample-ben': {
-    title: 'Resiping walang sukat',
-    paragraphs: [
-      'Hindi kailanman sinusukat ni Papa ang suka. Nagbubuhos lang siya hanggang tama na ang amoy ng nasa kaldero, nagdadagdag ng kaunting tubig, at sinasabing malalaman ko rin kung kailan sapat na.',
-      'Makalipas ang ilang taon, sa isang kusinang malayo sa kinalakhan ko, tinawagan ko siya para hingin ang resipi. “Tantiyahin mo lang,” sabi niya. Napatawa ako. Wala na sigurong mas malabong tagubilin, pero wala ring mas pamilyar sa pandinig ko.',
-      'Hindi namin ibinaba ang telepono habang nagluluto ako. Ipinakita ko sa kanya ang kaldero. Inilapit niya ang mukha sa kamera hanggang noo na lang niya ang nakikita ko. Dagdagan pa ng paminta, sabi niya. Hayaang kumulo. Huwag haluin nang haluin.',
-      'Iba ang lasa ng adobo. Hindi ko pa nasusubukan ang tatak ng toyo, at mali rin ang parte ng karneng nabili ko. Gayunman, kinunan ko ng larawan ang luto ko at ipinadala sa bahay.',
-      'Ngayon, niluluto ko iyon kapag may mga kaibigan akong bumibisita. Ikinukuwento ko kung paano ako tinuruan ni Papa, paisa-isang tantiya. Ang resipi ay naging pag-uusap na puwede naming ituloy kahit nasaan kami.'
+  "sample-ben": {
+    "title": "Pagkilala sa mga ugat sa pamamagitan ng pagkain",
+    "paragraphs": [
+      "Nilikha ng manunulat na si Nastasha Alli sa Toronto ang Exploring Filipino Kitchens tungkol sa pagkain, kasaysayan, at kultura ng Pilipinas.",
+      "Sa mga panayam, ibinabahagi ng mga panauhin ang alaala at tradisyon ng pagkaing Pilipino sa bansa at diaspora.",
+      "Noong 2022, naglakbay siya nang isang taon sa Pilipinas upang alamin ang niluluto sa mga tahanan, restawran, at iba pang lugar.",
+      "Iniuugnay ng proyekto ang mga Pilipino sa ibang bansa sa kanilang pinagmulan sa pamamagitan ng mga kuwento ng pagkain."
     ]
   },
-  'sample-ramon': {
-    title: 'Sabihin mo kapag kumukulo na',
-    paragraphs: [
-      'Nang tumawag ang anak ko para magtanong kung paano mag-adobo, muntik ko nang sabihin, “Isang daang beses mo na akong napanood gawin iyan.” Sa halip, sinabi kong ipakita niya ang kaldero.',
-      'May mga bagay na hindi ko matantiya sa kamera. Hindi ko maamoy ang suka o marinig kung gaano kalakas ang pagkulo. Kaya dahan-dahan kami. Itinataas niya ang mga bote. Pinakikiling ko ang kamera. Pareho kaming nagkukunwaring malinaw ang koneksiyon.',
-      'Nang ipadala niya ang larawan ng luto, ipinakita ko sa nanay niya. Masyado raw malabnaw ang sabaw. Pagkatapos, hiniling niyang itabi ko ang larawan.',
-      'Dati, iniisip kong kailangan ko ng malaking balita bago siya tawagan. Ngayon, itinatanong ko kung ano ang niluto niya. Tinatanong naman niya kung ano ang ulam namin sa tanghalian. May mga araw na iyon lang ang buong pag-uusap.',
-      'Mas tahimik ang kusina ngayong wala nang nagbubukas ng bawat takip ng kaldero. Pero minsan, kapag tumunog ang telepono ko sa tabi ng sangkalan, nababawasan ang katahimikan.'
+  "sample-ramon": {
+    "title": "Ang dumarating sa loob ng balikbayan box",
+    "paragraphs": [
+      "Naalala ni Luz Rimban ang mga regalong Amerikano mula sa tiyahing nars na lumipat sa Estados Unidos.",
+      "Bago nauso ang paghahatid ng mga kahon sa bahay, mga umuuwing Pilipino ang nagdadala ng pasalubong.",
+      "Kabilang sa alaala niya ang lola niyang nagluluto ng pancake sa Teflon pan mula sa San Diego.",
+      "Para kay Rimban, may dalang pagmamahal ang mga padala. Ipinadarama ng sabon, damit, pagkain, at kagamitan na naaalala pa rin ng mga kamag-anak sa malayo ang mga naiwan."
     ]
   },
-  'sample-teresa': {
-    title: 'Puwesto mo pa rin sa hapag',
-    paragraphs: [
-      'Tatlong araw bago umuwi ang kapatid ko, nilabhan ko ang mga kurtina. Wala namang dahilan para mapansin niya iyon. May magagawa lang ako habang naghihintay.',
-      'Pinagtalunan namin sa usapan ng pamilya kung ano ang iluluto. Huwag na raw kaming mag-abala. Pagkatapos, nagpadala siya ng listahan ng mga pagkaing nami-miss niya. Paraan din niya iyon ng pag-aabala sa amin.',
-      'Sa paliparan, nag-alala akong baka hindi na namin alam kung paano makitungo sa isa’t isa. Nasanay kami sa mga tawag na dalawampung minuto lang. Parang ibang wika ang isang buwang magkakasama.',
-      'Sa kotse, hiniling niyang buksan namin ang mga bintana. Itinuro niya ang isang tindahang wala na at ang isa pang nagpalit ng pangalan. Pagdating sa bahay, umupo siya sa dati niyang puwesto at nagtanong kung sino ang naglipat ng lutuan ng kanin.',
-      'Natawa kami. Kinabukasan, kailangan naming muling kilalanin ang nakasanayan ng bawat isa. Sa tingin ko, nabubuo ang pag-uwi sa maliliit na pag-aangkop na iyon. May nakalaan pa ring puwesto para sa kanya, pero puwede rin palang magbago kaming lahat.'
+  "sample-teresa": {
+    "title": "Paghihintay sa susunod na pag-uwi",
+    "paragraphs": [
+      "Ikinuwento ni Ma. Sheena Blanca ang buhay sa pagitan ng mga kontrata ng asawang si Rodrigo, na walong hanggang sampung buwang naglalayag.",
+      "Matapos ang maselang pagbubuntis, iniwan niya ang pangingibang-bansa bilang nars at nanatili sa Pilipinas kasama si Gabriel.",
+      "Labis na nangungulila ang anak: minsan ay umiiyak sa gabi o inaamoy ang damit ng ama.",
+      "Ipinapaliwanag ni Sheena na uuwi ang ama matapos ang kontrata. Bahagi ng pagpapalaki ang paghihintay sa muling pagsasama."
     ]
   },
-  'sample-joel': {
-    title: 'Pamilyar ang daan, iba na ako',
-    paragraphs: [
-      'Akala ko, makikilala ko ang lahat sa biyahe pauwi. Sa halip, puro ako tanong. Nariyan na ba dati ang panaderyang iyan? Kailan lumapad ang kalsada? Sino ang nagpintura ng gate?',
-      'Natawa ang kapatid ko at sinabing para na akong turista. Natawa rin ako, kahit mas masakit iyon kaysa sa inaasahan ko. Pinatigil ko pala ang bahay sa alaala ko, na para bang nangako ang lahat na maghihintay.',
-      'Sa mga unang araw, mas maaga akong nagigising kaysa sa lahat. Nagtitimpla ako ng kape at umuupo sa labas. Unti-unti, naging pamilyar ulit ang mga tunog sa umaga. Nagwawalis ang kapitbahay. May tumatawag sa batang mahuhuli na sa paaralan.',
-      'Nagsimula akong tumulong sa mga simpleng lakad. Natutuhan ko ang bagong daan papuntang palengke. Nakinig ako sa mga kuwentong hindi naisasama sa mga tawag.',
-      'May buhay pa rin ako sa ibang bansa. Natututuhan kong hindi nito binubura ang buhay ko rito. Baka ang pakiramdam na may kinabibilangan tayo ay isang bagay na patuloy nating binubuo, kahit nakauwi na tayo.'
+  "sample-joel": {
+    "title": "Panibagong simula sa pagbalik",
+    "paragraphs": [
+      "Iniwan ni Elsilyn Nitura ang pagtuturo upang muling magtrabaho sa ibang bansa noong 2015 para sa anim na anak.",
+      "Umuwi siya noong 2021 matapos magka-COVID-19 nang dalawang beses. Mahirap humanap ng trabaho at umangkop nang kulang ang ipon.",
+      "Nagtinda siya online ng lumpia at binabad na isda, at sumali sa gawaing pangkomunidad at pagsasanay.",
+      "Nakatulong siya sa limang inabusong OFW sa pamamagitan ng mga ugnayang nabuo sa Migrant Worker Resource Centre."
     ]
   },
-  'sample-ari': {
-    title: 'Ang una kong dyaket sa taglamig',
-    paragraphs: [
-      'Nabili ko ang una kong makapal na dyaket noong may diskuwento sa tindahan isang Setyembre. Sa labas, nakapantalong maikli pa ang mga tao. Iniuwi ko ang dyaket sa supot at ipinadala kay Mama ang larawan ng presyo. Tinanong niya kung natatakpan nito ang mga tainga ko.',
-      'Nang unang bumagsak ang niyebe, nalaman kong simula pa lang ang dyaket. Kailangan ko rin ng guwantes na mahahanap ko kahit madilim, botang hindi pinapasok ng tubig, at sapat na oras para hindi mataranta kapag naiwan ako ng bus.',
-      'Nagsimulang magpadala si Mama ng mensahe bago ako pumasok sa trabaho: Nakakain ka na? Gabi na sa kanila. Minsan, may kasama iyong larawan ng kalsada sa tapat ng bahay namin, maliwanag sa sikat ng araw.',
-      'Isang umaga, pinadalhan ko siya ng maikling bidyo ng niyebeng naiipon sa manggas ko. Tatlong beses niya iyong pinanood. Pagkatapos, pinatabi niya sa akin ang telepono at pinabalik sa mga bulsa ang mga kamay ko.'
+  "sample-ari": {
+    "title": "Mainit na kamay sa taglamig ng Ontario",
+    "paragraphs": [
+      "Sa unang taglamig ni Mae Olandesca sa Ontario, nakakatakot ang lamig kaya ilang linggo siyang halos nasa loob lang.",
+      "Sa pamamasyal sa The ROC sa Georgina, inabot ng batang si Yassi ang mainit nitong kamay nang ginawin siya.",
+      "Para kay Mae, nabawasan ang pag-iisa. Naging sagisag ang munting kilos ng mga taong nag-aalaga sa kanya sa Canada.",
+      "Iniuugnay ng pagninilay niya ang pag-angkop sa bagong bansa sa kabaitan: maaaring magsimula ang pakikipagkapwa sa isang pag-abot ng kamay."
     ]
   },
-  'sample-nora': {
-    title: 'Mainit pa rin dito',
-    paragraphs: [
-      'Noong unang ipinakita ni Ari ang niyebe, tinanong ko kung may tunog iyon. Sa kamera, mukha itong ulang nakalimot bumagsak nang mabilis. Natawa si Ari at binuksan ang bintana para mapakinggan ko.',
-      'Tumulong akong maglagay ng mga damit, tuwalya, at isang maliit na pakete ng kape sa maleta. Parang wala sa mga iyon ang sapat para sa ganoong lamig. Gusto ko tuloy magpadala ng mas mainit na gamit, kahit hindi ko alam kung ano ang magkakasya sa kahon.',
-      'Kaya ang umaga na lang ang ipinadadala ko. Ang kapitbahay na nagbubukas ng tindahan. Ang aso naming tulog sa tabi ng gate. Ang puno ng mangga matapos walisin ang bakuran. Hindi ko alam kung aling ordinaryong bagay ang gustong makita ni Ari.',
-      'Noong una, isinusulat kong mainit pa rin dito na para bang inaanyayahan ko siyang umuwi. Ngayon, isinusulat ko iyon dahil may nahanap na kaming mapag-uusapan bago pa kailangang sabihin ng isa sa aming nami-miss niya ang isa.'
+  "sample-nora": {
+    "title": "Ang pamilyang naghihintay sa paliparan",
+    "paragraphs": [
+      "Bago mag-aral sa Taiwan, nakilala ni Pauline Joyce Gonzalvo ang migrasyon bilang kamag-anak na nananatili sa Pilipinas.",
+      "Bahagi ng pagkabata niya ang pagsundo at paghahatid sa mga kamag-anak na dumadalaw mula sa ibang bansa.",
+      "Naalala niya ang paghihintay sa labas ng terminal at pagtulong ng mga magulang sa paglalakbay. Mabigat ang pamamaalam.",
+      "Nagbago ang papel niya nang umalis para mag-aral noong 2017. Naranasan niya ang magkabilang panig ng paghihiwalay."
     ]
   },
-  'sample-camille': {
-    title: 'Mga salitang dala ko',
-    paragraphs: [
-      'Alam ko pa rin ang mga salitang sinasabi ni Lola noong maliit ako. Tsinelas. Kumain ka na. Ingat. Mas mabagal nang dumating ang mahahabang pangungusap. Naririnig ko sa isip ko ang gusto kong sabihin, pero pagbigkas ko, nagkakagulo ang mga salita.',
-      'May panahong hinahayaan kong si Mama ang halos makipag-usap sa mga tawag namin. Ngingiti ako, kakaway, at maghihintay ng tanong na masasagot ko ng oo. Pagkatapos, pakiramdam ko ay bumisita ako sa isang bahay pero nanatili sa may pintuan.',
-      'Noong nakaraang buwan, nagsimula ako ng pahina sa kuwaderno na pinamagatan kong Mga ikukuwento kay Lola. Isinulat ko ang tungkol sa halaman sa pasimano at sa maingay na aso ng kapitbahay. Sa tabi ng bawat pangungusap, nag-iwan ako ng puwang para sa mga salitang kailangan ko pang itanong sa kanya.',
-      'Halos isang oras ang sumunod naming tawag. Nasa Ingles ang kalahati ng sinabi ko. Itinama ni Lola ang isang salita, nagkuwento tungkol sa dati naming aso, at nagtanong kung ano ang balak kong lutuin sa hapunan.'
+  "sample-camille": {
+    "title": "Pagkilala sa sarili sa mga larawan ng pamilya",
+    "paragraphs": [
+      "Napansin ni Anthonie Tumpag ang mga bagay mula sa Pilipinas sa likuran ng mga lumang larawan ng pamilya.",
+      "Ang dating pangkaraniwang ukit at dekorasyon ay naging pahiwatig ng kanyang pagkakakilanlang Filipino American.",
+      "Nagsimula sa mga minanang barya at dokumento ng lolo ang koleksiyon niya ng Filipiniana. Nagsaliksik siya at nagtanong tungkol sa mga tradisyon.",
+      "Ipinapakita ng sanaysay ang patuloy na pagtuklas sa kultura. Bukod sa mukha, may mga bagay sa larawan na nag-uugnay sa pinagmulan."
     ]
   },
-  'sample-elena': {
-    title: 'Puwede kang sumagot sa Ingles',
-    paragraphs: [
-      'Kapag tumatawag si Camille, nakakalimutan ko kung gaano na katagal mula nang tumira siya rito. Nagtatanong ako nang kasingbilis ng dati naming usapan sa hapag. Pagkatapos, makikita ko siyang hihingi ng tulong sa nanay niya, at maaalala kong bagalan.',
-      'Dati, iniisip kong kung patuloy akong magtatagalog, kusa niyang maaalala ang mga salita. Baka maalala nga niya ang ilan. Pero napansin kong umiikli ang usapan namin, at ayokong maramdaman niyang aralin ang bawat tawag.',
-      'Ngayon, sinasabi kong puwede siyang sumagot sa Ingles. Magkuwento ka muna. Saka na natin hanapin ang ibang salita. Minsan, itinataas niya ang kuwaderno at sampung minuto kaming nagpapangalan ng mga bagay na nakikita mula sa aming mga bintana.',
-      'Kahapon, ikinuwento niya ang bulaklak na sa wakas ay bumuka na. Hindi ko alam ang pangalan nito sa Ingles. Nagpadala siya ng larawan. Sabay naming tiningnan iyon, at sa pagkakataong iyon, wala nang kailangang isalin ang alinman sa amin.'
+  "sample-elena": {
+    "title": "Paglaki na nasa ibang bansa ang ama",
+    "paragraphs": [
+      "Binalikan ni Trixia Marie Policarpio ang pagkabatang nakasentro sa trabaho ng mga magulang, pag-aaral, at pang-araw-araw na pangangailangan.",
+      "Naging OFW ang ama noong elementarya siya upang kumita nang mas malaki kaysa sa Pilipinas.",
+      "Nang mag-aral sa South Korea, napagnilayan niya ang pagkakataon at mga pananaw na ikinakabit sa pagiging Pilipino.",
+      "Iniugnay niya ito sa karanasan ng pamilya. Ang pag-alis ng ama ay bahagi ng pag-unawa sa sarili at sa mga dahilang pangkabuhayan ng migrasyon."
     ]
   }
 };
 
 export const FILIPINO_PAIR_HEADINGS = {
-  'sample-sunday': { title: 'Magkalayo.\nMagkaugnay.', description: 'Isang karanasan. Dalawang paraan ng pag-alala.' },
-  'sample-recipe': { title: 'Ang resipi,\nisang pag-uusap.', description: 'Magkalayong kusina. Magkasamang alaala.' },
-  'sample-homecoming': { title: 'Pag-uwi.\nMuling pagkilala.', description: 'Isang pamilyar na lugar, at ang mga pagbabagong dala natin.' },
-  'sample-weather': { title: 'Magkaiba ang panahon.\nIisa ang pag-aalaga.', description: 'Isang dyaket, isang mensahe sa umaga, at ang layong pinagdudugtong nila.' },
-  'sample-language': { title: 'May mga salitang\nnakauuwi rin.', description: 'Dalawang henerasyong nagbibigay-puwang sa mga salitang alam na nila at sa mga pinag-aaralan pa.' }
+  "sample-sunday": {
+    "title": "Pag-aaruga\nsa magkabilang panig.",
+    "description": "Mga buod ng magkahiwalay na nailathalang karanasan. Hindi magkapamilya sina Susan at Angeli; magkaugnay ang kanilang tema."
+  },
+  "sample-recipe": {
+    "title": "Pagkain, padala,\nat ugnayan sa tahanan.",
+    "description": "Dalawang magkahiwalay na salaysay: proyektong pangpagkain sa Canada at alaala ng mga padala sa Pilipinas."
+  },
+  "sample-homecoming": {
+    "title": "Paghihintay.\nMuling pagsisimula.",
+    "description": "Magkahiwalay na karanasan ng pamilya ni Sheena at pagbalik ni Elsilyn. Tema ang nag-uugnay sa kanila; hindi sila magkapamilya."
+  },
+  "sample-weather": {
+    "title": "Bagong lugar.\nPamilyar na pamamaalam.",
+    "description": "Magkahiwalay na sanaysay tungkol sa taglamig ni Mae sa Ontario at sa alaala ni Pauline ng mga umaalis na kamag-anak."
+  },
+  "sample-language": {
+    "title": "Mga ugat ng\nating pagkakakilanlan.",
+    "description": "Mga buod ng magkahiwalay na sanaysay nina Anthonie at Trixia tungkol sa kultura, pamilya, at pagkakakilanlan."
+  }
 };
 
 export const STORY_UI = {
-  en: { back: 'Back to our stories', left: 'The person who left', stayed: 'The family who stayed', read: 'Read', listen: 'listen', watch: 'watch', preview: 'Read this perspective', related: 'Read beyond this story', share: 'Share your story', transcript: 'Media transcript & description', narration: 'Narration in English', video: 'Silent visual study', results: 'stories found', writtenBy: 'Written by', like: 'Like this story', liked: 'Liked', likes: 'likes', likeAction: 'Like', addedLike: 'Story liked.', removedLike: 'Like removed.' },
-  fil: { back: 'Bumalik sa mga kuwento', left: 'Ang umalis', stayed: 'Ang pamilyang naiwan', read: 'Basahin', listen: 'pakinggan', watch: 'panoorin', preview: 'Basahin ang kuwentong ito', related: 'Iba pang babasahin', share: 'Ibahagi ang iyong kuwento', transcript: 'Transkripsiyon at paglalarawan ng midya', narration: 'Salaysay sa Ingles', video: 'Bidyong walang tunog', results: 'kuwentong nahanap', writtenBy: 'Isinulat ni', like: 'Gustuhin ang kuwento', liked: 'Nagustuhan', likes: 'paggusto', likeAction: 'Gustuhin', addedLike: 'Nagustuhan ang kuwento.', removedLike: 'Inalis ang pagkagusto.' }
+  en: { back: 'Back to our stories', left: 'The person who left', stayed: 'The family who stayed', read: 'Read', listen: 'listen', watch: 'watch', preview: 'Read this perspective', related: 'Read beyond this story', share: 'Share your story', transcript: 'Media transcript & description', narration: 'Computer-voiced summary in English', video: 'Silent visual study', results: 'stories found', writtenBy: 'Written by', accountOf: 'Account of', summary: 'Editorial summary', like: 'Like this story', liked: 'Liked', likes: 'likes', likeAction: 'Like', addedLike: 'Story liked.', removedLike: 'Like removed.' },
+  fil: { back: 'Bumalik sa mga kuwento', left: 'Ang umalis', stayed: 'Ang pamilyang naiwan', read: 'Basahin', listen: 'pakinggan', watch: 'panoorin', preview: 'Basahin ang kuwentong ito', related: 'Iba pang babasahin', share: 'Ibahagi ang iyong kuwento', transcript: 'Transkripsiyon at paglalarawan ng midya', narration: 'Buod sa Ingles, tinig ng computer', video: 'Bidyong walang tunog', results: 'kuwentong nahanap', writtenBy: 'Isinulat ni', accountOf: 'Karanasan ni', summary: 'Buod ng nailathalang salaysay', like: 'Gustuhin ang kuwento', liked: 'Nagustuhan', likes: 'paggusto', likeAction: 'Gustuhin', addedLike: 'Nagustuhan ang kuwento.', removedLike: 'Inalis ang pagkagusto.' }
 };
