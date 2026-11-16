@@ -234,7 +234,7 @@ function renderDetail(id) {
   const pairHeading = headings[story.pairId] || { title: 'Two sides of\nthe same distance.', description: 'One shared experience. Two ways of remembering it.' };
   document.title = edition.title + ' — The Balikbayan Project';
   $('#story-detail').innerHTML = '<div class="story-reading-toolbar"><a class="back-link" href="' + escapeHTML(lastArchiveHash) + '">← ' + ui.back + '</a>' + (hasTranslation ? languageControl() : '') + '</div><header class="detail-header" lang="' + language + '">' +
-    '<p class="eyebrow">Balikbayan Box / ' + (companion ? (language === 'fil' ? 'Pag-uusap sa magkabilang panig' : 'A conversation across distance') : escapeHTML(story.theme)) + '</p><h1 tabindex="-1">' +
+    '<p class="eyebrow">' + (companion ? (language === 'fil' ? 'Pag-uusap sa magkabilang panig' : 'A conversation across distance') : escapeHTML(story.theme)) + '</p><h1 tabindex="-1">' +
     (companion ? escapeHTML(pairHeading.title).replaceAll('\n', '<br>') : escapeHTML(edition.title)) + '</h1><p>' +
     (companion ? escapeHTML(pairHeading.description) : 'Every account is a place to begin. This story is waiting for the other side of the conversation.') + '</p></header>' +
     '<div class="' + (companion ? 'paired-stories' : 'individual-story') + '">' + pair.map(item => accountHTML(item, !companion, language)).join('') + '</div>' +

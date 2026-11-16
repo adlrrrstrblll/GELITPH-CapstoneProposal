@@ -65,7 +65,7 @@ export const RESOURCES = [
   {
     "id": "winged-wishes",
     "title": "Winged wishes for my daughter",
-    "creator": "PositiveNegatives · MigrationRhythms / PRIO",
+    "creator": "PositiveNegatives and MigrationRhythms, PRIO",
     "format": "watch",
     "type": "Research-based animation",
     "theme": "Family & memory",
@@ -98,7 +98,7 @@ const escape = value => String(value ?? '').replace(/[&<>"']/g, character => ({'
 let filters = {q:'',format:'all',theme:'all',country:'all'};
 function card(resource) {
   const r=resource;
-  return '<article class="resource-card"><a class="resource-visual" href="'+escape(r.url)+'" target="_blank" rel="noopener noreferrer" aria-label="'+(r.format==='watch'?'Watch ':'Read ')+escape(r.title)+'"><img src="'+escape(r.image)+'" alt="'+escape(r.imageAlt)+'" width="640" height="400" loading="lazy"><span class="format-tag">'+r.format.toUpperCase()+(r.length?' · '+escape(r.length):'')+'</span></a><p class="resource-meta">'+r.format.toUpperCase()+' / '+escape(r.country)+'</p><h3><a href="'+escape(r.url)+'" target="_blank" rel="noopener noreferrer">'+escape(r.title)+'</a></h3><p class="resource-creator">'+escape(r.creator)+'</p><p class="resource-description">'+escape(r.summary)+'</p><div class="resource-card-actions">'+(r.youtube?'<button class="text-link" type="button" data-video="'+escape(r.id)+'">Watch here ▷</button>':'')+'<a class="text-link" href="'+escape(r.url)+'" target="_blank" rel="noopener noreferrer">'+(r.youtube?'YouTube ↗':'Read at source ↗')+'</a></div></article>';
+  return '<article class="resource-card"><a class="resource-visual" href="'+escape(r.url)+'" target="_blank" rel="noopener noreferrer" aria-label="'+(r.format==='watch'?'Watch ':'Read ')+escape(r.title)+'"><img src="'+escape(r.image)+'" alt="'+escape(r.imageAlt)+'" width="640" height="400" loading="lazy"><span class="format-tag">'+r.format.toUpperCase()+(r.length?' · '+escape(r.length):'')+'</span></a><p class="resource-meta">'+escape(r.country)+'</p><h3><a href="'+escape(r.url)+'" target="_blank" rel="noopener noreferrer">'+escape(r.title)+'</a></h3><p class="resource-creator">'+escape(r.creator)+'</p><p class="resource-description">'+escape(r.summary)+'</p><div class="resource-card-actions">'+(r.youtube?'<button class="text-link" type="button" data-video="'+escape(r.id)+'">Watch here ▷</button>':'')+'<a class="text-link" href="'+escape(r.url)+'" target="_blank" rel="noopener noreferrer">'+(r.youtube?'YouTube ↗':'Read at source ↗')+'</a></div></article>';
 }
 function updateURL() {
   const query=new URLSearchParams();

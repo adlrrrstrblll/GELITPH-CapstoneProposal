@@ -1,12 +1,12 @@
 // Original fictional writing for demonstration, never represented as interviews.
 // Built-in samples are read-only and do not count toward the collection target.
 const image = (url, description, credit) => ({ kind: 'image', url, name: 'Illustrative photograph', description, credit });
-const airport = image('assets/airport-luggage.jpg', 'Travel bags in an airport waiting area. Illustrative photograph.', 'MChe Lee / Unsplash');
-const home = image('assets/home.jpg', 'A house in Moalboal, Cebu. Illustrative photograph.', 'Jan Ledermann / Unsplash');
-const jeepney = image('assets/jeepney.jpg', 'A jeepney on a Manila street. Illustrative photograph.', 'Sadia Afreen / Unsplash');
-const adobo = image('assets/adobo.jpg', 'Chicken adobo served on a plate. Illustrative photograph.', 'dbgg1979 / CC BY 2.0');
-const cooking = image('assets/lumpia-prep.jpg', 'Hands wrapping lumpia in a kitchen. Illustrative photograph.', 'Kayte Young / WFIU');
-const meal = image('assets/shared-meal.jpg', 'People sharing a meal in Baguio. Illustrative photograph.', 'Joyce Romero / Unsplash');
+const airport = image('assets/airport-luggage.jpg', 'Travel bags in an airport waiting area. Illustrative photograph.', 'MChe Lee, via Unsplash');
+const home = image('assets/home.jpg', 'A house in Moalboal, Cebu. Illustrative photograph.', 'Jan Ledermann, via Unsplash');
+const jeepney = image('assets/jeepney.jpg', 'A jeepney on a Manila street. Illustrative photograph.', 'Sadia Afreen, via Unsplash');
+const adobo = image('assets/adobo.jpg', 'Chicken adobo served on a plate. Illustrative photograph.', 'dbgg1979 (CC BY 2.0)');
+const cooking = image('assets/lumpia-prep.jpg', 'Hands wrapping lumpia in a kitchen. Illustrative photograph.', 'Kayte Young, via WFIU');
+const meal = image('assets/shared-meal.jpg', 'People sharing a meal in Baguio. Illustrative photograph.', 'Joyce Romero, via Unsplash');
 
 
 export const SAMPLE_STORIES = [
@@ -66,7 +66,7 @@ export const SAMPLE_STORIES = [
       "url": "assets/winter.jpg",
       "name": "Illustrative photograph",
       "description": "A snow-covered street in Toronto. Illustrative image, not a portrait of the narrator.",
-      "credit": "Rolandas S / Unsplash"
+      "credit": "Rolandas S, via Unsplash"
     }
   ],
   "transcript": "Illustrative image: A snow-covered street in Toronto."
@@ -87,7 +87,7 @@ export const SAMPLE_STORIES = [
       "url": "assets/sari-store.jpg",
       "name": "Illustrative photograph",
       "description": "Neighbors outside a sari-sari store in Cebu City. Illustrative image, not a portrait of the narrator.",
-      "credit": "XT7 Core / Unsplash"
+      "credit": "XT7 Core, via Unsplash"
     }
   ],
   "transcript": "Illustrative image: Neighbors outside a sari-sari store in Cebu City."
@@ -108,7 +108,7 @@ export const SAMPLE_STORIES = [
       "url": "assets/writing.jpg",
       "name": "Illustrative photograph",
       "description": "A person writing in a notebook over coffee. Illustrative image, not a portrait of the narrator.",
-      "credit": "Oliver Kallion / Unsplash"
+      "credit": "Oliver Kallion, via Unsplash"
     }
   ],
   "transcript": "Illustrative image: A person writing in a notebook over coffee."
@@ -129,7 +129,7 @@ export const SAMPLE_STORIES = [
       "url": "assets/shared-meal.jpg",
       "name": "Illustrative photograph",
       "description": "People sharing a meal in Baguio. Illustrative image, not a portrait of the narrator.",
-      "credit": "Joyce Romero / Unsplash"
+      "credit": "Joyce Romero, via Unsplash"
     }
   ],
   "transcript": "Illustrative image: People sharing a meal in Baguio."
