@@ -1,4 +1,4 @@
-import { validateRecord, assertPairing } from './validation.js';
+import { validateRecord, assertPairing, normalizeTheme } from './validation.js';
 
 let databasePromise;
 export function openDatabase() {
@@ -27,7 +27,7 @@ export async function getStories() {
     const transaction = database.transaction('stories', 'readonly');
     const request = transaction.objectStore('stories').getAll();
     request.onerror = () => reject(request.error);
-    request.onsuccess = () => resolve(request.result);
+    request.onsuccess = () => resolve(request.result.map(story => ({ ...story, theme: normalizeTheme(story.theme) })));
   });
 }
 

@@ -5,7 +5,7 @@ import { bindResources, showResources, closeResourceVideo } from './resources.js
 import { MEDIA_CREDITS } from './credits.js';
 import { SAMPLE_STORIES, PAIR_HEADINGS } from './samples.js';
 import { getStories, saveStory, deleteStory } from './db.js';
-import { THEMES, PERSPECTIVES, validateDraft, fileError } from './validation.js';
+import { THEMES, PERSPECTIVES, validateDraft, fileError, normalizeTheme } from './validation.js';
 import { createBackup, restoreBackup, downloadBackup } from './backup.js';
 
 const $ = selector => document.querySelector(selector);
@@ -232,9 +232,12 @@ function renderDetail(id) {
   const edition = readingEdition(story, language);
   const headings = language === 'fil' ? FILIPINO_PAIR_HEADINGS : PAIR_HEADINGS;
   const pairHeading = headings[story.pairId] || { title: 'Two sides of\nthe same distance.', description: 'One shared experience. Two ways of remembering it.' };
+  const eyebrow = companion
+    ? (story.contentType === 'editorial-summary' ? '' : (language === 'fil' ? 'Pag-uusap sa magkabilang panig' : 'A conversation across distance'))
+    : escapeHTML(story.theme);
   document.title = edition.title + ' — The Balikbayan Project';
   $('#story-detail').innerHTML = '<div class="story-reading-toolbar"><a class="back-link" href="' + escapeHTML(lastArchiveHash) + '">← ' + ui.back + '</a>' + (hasTranslation ? languageControl() : '') + '</div><header class="detail-header" lang="' + language + '">' +
-    '<p class="eyebrow">' + (companion ? (story.contentType === 'editorial-summary' ? (language === 'fil' ? 'Mga karanasang pinag-uugnay ng tema' : 'Accounts connected by theme') : (language === 'fil' ? 'Pag-uusap sa magkabilang panig' : 'A conversation across distance')) : escapeHTML(story.theme)) + '</p><h1 tabindex="-1">' +
+    (eyebrow ? '<p class="eyebrow">' + eyebrow + '</p>' : '') + '<h1 tabindex="-1">' +
     (companion ? escapeHTML(pairHeading.title).replaceAll('\n', '<br>') : escapeHTML(edition.title)) + '</h1><p>' +
     (companion ? escapeHTML(pairHeading.description) : 'Every account is a place to begin. This story is waiting for the other side of the conversation.') + '</p></header>' +
     '<div class="' + (companion ? 'paired-stories' : 'individual-story') + '">' + pair.map(item => accountHTML(item, !companion, language)).join('') + '</div>' +
@@ -274,6 +277,10 @@ function renderRoute() {
   if (path === 'box') {
     if (!parameters.has('object')) parameters.set('object', 'letter');
     history.replaceState(null, '', '#home?' + parameters);
+  }
+  if (alias === 'stories' && parameters.get('theme') === 'Belonging') {
+    parameters.set('theme', normalizeTheme(parameters.get('theme')));
+    history.replaceState(null, '', '#stories?' + parameters);
   }
   if (['en', 'fil'].includes(parameters.get('lang'))) {
     storeReadingLanguage(parameters.get('lang'));

@@ -111,7 +111,7 @@ export const FILIPINO_PAIR_HEADINGS = {
     "description": "Magkahiwalay na sanaysay tungkol sa taglamig ni Mae sa Ontario at sa alaala ni Pauline ng mga umaalis na kamag-anak."
   },
   "sample-language": {
-    "title": "Mga ugat ng\nating pagkakakilanlan.",
+    "title": "Mga alaalang humuhubog\nsa ating pagkakakilanlan.",
     "description": "Mga buod ng magkahiwalay na sanaysay nina Anthonie at Trixia tungkol sa kultura, pamilya, at pagkakakilanlan."
   }
 };

@@ -264,7 +264,7 @@ export const SAMPLE_STORIES = [
     "title": "Finding identity in family photographs",
     "author": "Anthonie Tumpag",
     "perspective": "left",
-    "theme": "Belonging",
+    "theme": "Remembering",
     "likes": 156,
     "isSample": true,
     "contentType": "editorial-summary",
@@ -294,7 +294,7 @@ export const SAMPLE_STORIES = [
     "title": "Growing up with a father overseas",
     "author": "Trixia Marie Policarpio",
     "perspective": "stayed",
-    "theme": "Belonging",
+    "theme": "Remembering",
     "likes": 119,
     "isSample": true,
     "contentType": "editorial-summary",
@@ -339,7 +339,7 @@ export const PAIR_HEADINGS = {
     "description": "Two independent essays: Mae’s first Ontario winter and Pauline’s memories of family departures."
   },
   "sample-language": {
-    "title": "The things that shape\nour belonging.",
+    "title": "The memories that shape\nwho we are.",
     "description": "Independent essays by Anthonie and Trixia, brought together to explore heritage and family."
   }
 };

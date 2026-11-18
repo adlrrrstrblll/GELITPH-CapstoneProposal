@@ -1,5 +1,7 @@
 // Shared rules for the form and restored backups.
-export const THEMES = ['Leaving', 'Staying', 'Remembering', 'Coming Home', 'Belonging'];
+export const THEMES = ['Leaving', 'Staying', 'Remembering', 'Coming Home'];
+// Keep contributions and backups from the former theme readable and editable.
+export const normalizeTheme = theme => theme === 'Belonging' ? 'Remembering' : theme;
 export const PERSPECTIVES = { left: 'The Person Who Left', stayed: 'The Family Who Stayed' };
 export const MEDIA_RULES = {
   image: { max: 10 * 1024 * 1024, types: { jpg: ['image/jpeg'], jpeg: ['image/jpeg'], png: ['image/png'], webp: ['image/webp'], gif: ['image/gif'] } },
@@ -54,11 +56,12 @@ export function validateRecord(story) {
     const error = fileError(file, medium.kind);
     if (error) throw new Error(medium.name + ': ' + error);
   }
-  const errors = validateDraft(story);
+  const theme = normalizeTheme(story.theme);
+  const errors = validateDraft({ ...story, theme });
   if (Object.keys(errors).length) throw new Error(Object.values(errors).join(' '));
   return {
     id: story.id, pairId: story.pairId, title: story.title.trim(), author: story.author.trim(),
-    perspective: story.perspective, theme: story.theme, narrative: story.narrative.trim(),
+    perspective: story.perspective, theme, narrative: story.narrative.trim(),
     transcript: story.transcript.trim(), consent: true, isSample: false,
     media: story.media.map(medium => ({ kind: medium.kind, name: medium.name, blob: medium.blob })),
     createdAt: story.createdAt, updatedAt: story.updatedAt
